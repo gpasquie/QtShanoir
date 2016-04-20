@@ -52,19 +52,15 @@ return tree;
 
 void QtShanoirTree::acquireRefreshExamList(int idStudy,int idSubject)
 {
-    qDebug()<<"I'm in acquireRefreshExamList";
     QtShanoirMain* acquireExam =  new QtShanoirMain();
     ParseTree* parse = new ParseTree();
     QString xmlSerializer;
     xmlSerializer = acquireExam->acquireExam(QString::number(idSubject));
     parse->parseExam(xmlSerializer,idStudy,idSubject,this);
-    //displayAllTree();
-
 }
 
 void QtShanoirTree::acquireRefreshDatasetList(int idStudy, int idSubject, int idExam)
 {
-    qDebug()<<"I'm in acquireRefreshDatasetList";
     QtShanoirMain* acquireDataset =  new QtShanoirMain();
     ParseTree* parse = new ParseTree();
     QString xmlSerializer;
@@ -74,15 +70,12 @@ void QtShanoirTree::acquireRefreshDatasetList(int idStudy, int idSubject, int id
 
 void QtShanoirTree::acquireRefreshProcess_processedDatasetList(int idStudy, int idSubject, int idExam, int idDataset)
 {
-    qDebug()<<"I'm in acquireRefreshProcess_processedDatasetList";
     QtShanoirMain* acquireProcess_ProcessedDataset =  new QtShanoirMain();
     ParseTree* parse = new ParseTree();
     QString xmlSerializer;
     xmlSerializer = acquireProcess_ProcessedDataset->acquireProcess_ProcessedDataset(QString::number(idDataset));
     parse->parseProcess_ProcessedDataset(xmlSerializer,idStudy,idSubject,idExam,idDataset,this);
 }
-
-
 
 QString QtShanoirTree::getServer()
 {
@@ -115,7 +108,6 @@ void QtShanoirTree::insertExam(QtShanoirExam exam,int idStudy, int idSubject)
 
 void QtShanoirTree::displayStudyList()
 {
-    qDebug()<<"I'm in displayStudyList";
     for (int i=0; i<studyList.size();i++)
        qDebug()<<"Study:"<<studyList.value(i).getName();
 }
@@ -137,7 +129,6 @@ QMap<int,QString> QtShanoirTree::getStudyList(QString studyFilter)
 
 void QtShanoirTree::displayAllTree()
 {
-   qDebug()<<"I'm in diplayAllTree";
     for (int i=0; i<studyList.size();i++)
    {
        qDebug()<<"Study:"<<studyList.value(i).getName();
@@ -169,8 +160,6 @@ QMap<int,QString> QtShanoirTree::getSubjectList(QString study, QString subjectFi
 
     return list;
 }
-
-
 
 QtShanoirStudy& QtShanoirTree::getStudyById(int id)
 {

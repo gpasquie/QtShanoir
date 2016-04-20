@@ -19,7 +19,6 @@ ParseTree::ParseTree()
 //}
 void ParseTree::parseStudy_Subject(QString xmlserializer,QtShanoirTree* tree)
 {
-    qDebug()<<"parseStudy_Subject";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -59,7 +58,6 @@ void ParseTree::parseStudy_Subject(QString xmlserializer,QtShanoirTree* tree)
 
 void ParseTree::parseExam(QString xmlserializer,int idStudy, int idSubject, QtShanoirTree* tree)
 {
-    qDebug()<<"parseExam";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -75,13 +73,10 @@ void ParseTree::parseExam(QString xmlserializer,int idStudy, int idSubject, QtSh
         el = el.nextSiblingElement("return");
     }
     doc.clear();
-
-        //emit queryFinished();
 }
 
 void ParseTree::parseDataset(QString xmlserializer, int idStudy, int idSubject, int idExam, QtShanoirTree* tree)
 {
-    qDebug()<<"parseDataset";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -91,8 +86,6 @@ void ParseTree::parseDataset(QString xmlserializer, int idStudy, int idSubject, 
     while (!el.isNull())
     {
         QtShanoirDataset dataset;
-
-       //std::cout<<doc.toString()<<std::endl;
 
         dataset.setId(el.firstChildElement("id").firstChild().nodeValue().toInt());
         dataset.setName(el.firstChildElement("name").firstChild().nodeValue());
@@ -106,18 +99,13 @@ void ParseTree::parseDataset(QString xmlserializer, int idStudy, int idSubject, 
 
         tree->getStudyById(idStudy).getSubjectById(idSubject).getExamById(idExam).insertDataset(dataset);
 
-
-
         el = el.nextSiblingElement("datasetResultList");
     }
         doc.clear();
-
-
 }
 
 void ParseTree::parseProcess_ProcessedDataset(QString xmlserializer, int idStudy, int idSubject, int idExam, int idDataset,QtShanoirTree* tree)
 {
-    qDebug()<<"parseDatasetProcesing";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -153,7 +141,6 @@ void ParseTree::parseProcess_ProcessedDataset(QString xmlserializer, int idStudy
 
 void ParseTree::parseProcessingList(QString xmlserializer,QtShanoirUpload* upload) // gerer les messages d'erreur
 {
-    qDebug()<<"parseProcessingList";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -169,12 +156,10 @@ void ParseTree::parseProcessingList(QString xmlserializer,QtShanoirUpload* uploa
     }
     doc.clear();
     upload->setProcessingList(processingList);
-    //return processingList;
 }
 
 void ParseTree::parseDatasetTypeList(QString xmlserializer,QtShanoirUpload* upload) // gerer les messages d'erreur
 {
-    qDebug()<<"parseDatasetTypeList";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -188,13 +173,11 @@ void ParseTree::parseDatasetTypeList(QString xmlserializer,QtShanoirUpload* uplo
         el = el.nextSiblingElement("return");
     }
     doc.clear();
-    //return datasetTypeList;
     upload->setDatasetTypeList(datasetTypeList);
 }
 
 void ParseTree::parseMrdatasetNatureList(QString xmlserializer, QtShanoirUpload* upload)
 {
-    qDebug()<<"parseMrdatasetNatureList";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -213,7 +196,6 @@ void ParseTree::parseMrdatasetNatureList(QString xmlserializer, QtShanoirUpload*
 
 void ParseTree::parseMrSpectroscopydatasetNatureList(QString xmlserializer, QtShanoirUpload* upload)
 {
-    qDebug()<<"parseMrSpectroscopydatasetNatureList";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -232,7 +214,6 @@ void ParseTree::parseMrSpectroscopydatasetNatureList(QString xmlserializer, QtSh
 
 void ParseTree::parseMrDatasetQualityProcedureTypeList(QString xmlserializer, QtShanoirUpload* upload)
 {
-    qDebug()<<"parseMrDatasetQualityProcedureTypeList";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -251,7 +232,6 @@ void ParseTree::parseMrDatasetQualityProcedureTypeList(QString xmlserializer, Qt
 
 void ParseTree::parseCalibrationDatasetTypeList(QString xmlserializer, QtShanoirUpload* upload)
 {
-    qDebug()<<"parseCalibrationDatasetTypeList";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -270,7 +250,6 @@ void ParseTree::parseCalibrationDatasetTypeList(QString xmlserializer, QtShanoir
 
 void ParseTree::parseProcessedDatasetTypeList(QString xmlserializer, QtShanoirUpload* upload)
 {
-    qDebug()<<"parseProcessedDatasetTypeList";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -289,7 +268,6 @@ void ParseTree::parseProcessedDatasetTypeList(QString xmlserializer, QtShanoirUp
 
 void ParseTree::parseTemplateDatasetNatureList(QString xmlserializer, QtShanoirUpload* upload)
 {
-    qDebug()<<"parseTemplateDatasetNatureList";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -308,7 +286,6 @@ void ParseTree::parseTemplateDatasetNatureList(QString xmlserializer, QtShanoirU
 
 void ParseTree::parseParameterQuantificationNatureList(QString xmlserializer, QtShanoirUpload* upload)
 {
-    qDebug()<<"parseParameterQuantificationNatureList";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());
@@ -327,7 +304,6 @@ void ParseTree::parseParameterQuantificationNatureList(QString xmlserializer, Qt
 
 void ParseTree::parseSpectNatureList(QString xmlserializer, QtShanoirUpload* upload)
 {
-    qDebug()<<"parseSpectNatureList";
     QDomDocument doc;
     doc.setContent(xmlserializer);
     doc.appendChild(doc.firstChild().firstChildElement("SOAP-ENV:Body").firstChild());

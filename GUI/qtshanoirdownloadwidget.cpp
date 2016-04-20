@@ -10,7 +10,6 @@ QtShanoirDownloadWidget::QtShanoirDownloadWidget(QWidget *parent) : QWidget(pare
     ui->setupUi(this);
     hideWidget();
     initConnections();
-
 }
 
 void QtShanoirDownloadWidget::initConnections()
@@ -94,7 +93,6 @@ void QtShanoirDownloadWidget::buildTableDownload()
 
 void QtShanoirDownloadWidget::startDownload(QString directory)
 {
-    qDebug() << "Start Download";
     emit callBuildTableDownload();
     QLibrary library("DAO.dll");
     if (!library.load())
@@ -123,19 +121,11 @@ void QtShanoirDownloadWidget::startDownload(QString directory)
             //(QtShanoirProgressWidget*)(ui->tableWidget->item(0,0))->setProgressBarValue(50);
            // modifyProgressBar((QtShanoirProgressWidget*)ui->tableWidget->item(0,0),50);
 
-
-
-
-
-
-
             //ajouter test
-
         }
     }
     else
         qDebug() << "could not call function";
-
 
 //        if (d->progress)
 //            d->progress->download->setValue ((int)(100.00*(i+1)/d->selectedIds.size()));
@@ -158,7 +148,6 @@ void QtShanoirDownloadWidget::startDownload(QString directory)
 
 void QtShanoirDownloadWidget::updateSelectedIds (QMap<int, QString> listId )
 {
-    qDebug() << "updateSelectedIds";
     this->selectedIds = listId;
 }
 
@@ -178,21 +167,13 @@ void QtShanoirDownloadWidget::removeDatasetFromSelectedIds(int datasetId)
 
 void QtShanoirDownloadWidget::modifyRow(int row)
 {
-
-    //ui->tableWidget->item(0,0);
-    qDebug()<<"nooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
-
     //item->showProgressBar();
     //item->setProgressBarValue(value);
 }
 
-
-
 //void QtShanoirDownloadWidget::disableRemoveButton(QTableWidgetItem * item)
 //{
-
 //    ui->tableWidget->item(0,0);
-//    qDebug()<<"nooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
 //    qDebug()<<"value"<<value;
 //    item->showProgressBar();
 //    item->setProgressBarValue(value);

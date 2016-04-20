@@ -3,20 +3,17 @@
 QtShanoirDownload::QtShanoirDownload()
 {
 
-
 }
+
 void QtShanoirDownload::getFileName(QString xmlserializer)
 {
-    qDebug()<<"xmlserializer"<<xmlserializer;
     QDomDocument doc;
     doc.setContent (xmlserializer);
     QDomNode n = doc.firstChild().firstChild().nextSibling().firstChild().firstChild();
     if (n.isElement())
     {
-        qDebug()<<"DownloadFileNametoElement"<<n.toElement().text();
         setDownloadFileName(n.toElement().text());
     }
-    qDebug()<<"DownloadFileName"<<getDownloadFileName();
 }
 
 void QtShanoirDownload::downloadDataset(QByteArray bin, QString datasetId, QString downloadDirectory)
@@ -24,9 +21,7 @@ void QtShanoirDownload::downloadDataset(QByteArray bin, QString datasetId, QStri
     int id = datasetId.toInt();
     if (bin.isEmpty())
     {
-        //emit queryFailed("Empty binary");
         qDebug()<<"Empty binary";
-        //return;
     }
 
     QString tmpName = downloadFileName.isEmpty() ? QString ( "%1.nii.gz" ).arg (id) : downloadFileName;

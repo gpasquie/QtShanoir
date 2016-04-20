@@ -1,5 +1,6 @@
 #include "qtshanoirprogresswidget.h"
 #include <QDebug>
+
 QtShanoirProgressWidget::QtShanoirProgressWidget(QWidget *parent): QWidget (parent),ui(new Ui::QtShanoirProgressWidget)
 {
         ui->setupUi(this);

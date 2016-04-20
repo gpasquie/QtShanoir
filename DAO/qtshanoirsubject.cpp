@@ -1,11 +1,6 @@
 #include "qtshanoirsubject.h"
 #include "qtshanoirmain.h"
 
-//QtShanoirSubject::QtShanoirSubject()
-//{
-//    this->examList = new QList<QtShanoirExam> ();
-
-//}
 
 int QtShanoirSubject::getId()
 {
@@ -59,11 +54,9 @@ void QtShanoirSubject::setSexe(QChar sexe)
 
 QtShanoirExam& QtShanoirSubject::getExamById(int id)
 {
-
     for (int i=0; i<examList.size();i++)
         if(examList.value(i).getId()== id)
             return examList[i];
-    //return hy;
 }
 
 void QtShanoirSubject::insertExam(QtShanoirExam exam)
@@ -73,29 +66,23 @@ void QtShanoirSubject::insertExam(QtShanoirExam exam)
 
 void QtShanoirSubject::displayExamList()
 {
-    qDebug()<<"I'm in displayExamList";
     for (int i=0; i<examList.size();i++)
       qDebug()<<"Exam:"<<examList.value(i).getComment();
-    qDebug()<<"Fin displayExamList";
 }
 
 QMap<int,QString> QtShanoirSubject::getExamList()
 {
     QMap<int,QString> list;
-    qDebug()<<"size"<<examList.size();
 
     for (int i=0; i<examList.size();i++)
     {
-       // qDebug()<<examList.value(i).getComment();
-       // if (filter.exactMatch(studyList.value(i).getName()))
-           list.insert(examList.value(i).getId(),examList.value(i).getComment());
+        list.insert(examList.value(i).getId(),examList.value(i).getComment());
     }
     return list;
 }
 
 void QtShanoirSubject::acquireRefreshExamList()
 {
-//    qDebug()<<"hello";
 //    //examList.clear();
 //    qDebug()<<id;
 //    QtShanoirMain* acquireExam =  new QtShanoirMain();
@@ -105,16 +92,11 @@ void QtShanoirSubject::acquireRefreshExamList()
 //    qDebug()<<"hell13o";
 //    qDebug()<<"xmlSerializer"<<xmlSerializer;
 
-
 //    parse->parseExam(xmlSerializer,this);
 //this->displayExamList();
-//    qDebug()<<"loki";
-
-
 }
 
 int QtShanoirSubject::sizeExamList()
 {
     return examList.size();
-
 }

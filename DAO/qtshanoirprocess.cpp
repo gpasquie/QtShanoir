@@ -37,7 +37,6 @@ void QtShanoirProcess::setCreationDate(QDate date)
 
 QtShanoirProcessedDataset& QtShanoirProcess::getProcessedDatasetById(int id)
 {
-
     for (int i=0; i<processedDatasetList.size();i++)
         if(processedDatasetList.value(i).getId()== id)
             return processedDatasetList[i];
@@ -50,10 +49,8 @@ void QtShanoirProcess::insertProcessedDataset(QtShanoirProcessedDataset processe
 
 void QtShanoirProcess::displayProcessedList()
 {
-    qDebug()<<"I'm in displayProcessedList";
     for (int i=0; i<processedDatasetList.size();i++)
       qDebug()<<"Process:"<<processedDatasetList.value(i).getName();
-    qDebug()<<"Fin displayProcessedList";
 }
 
 QMap<int,QString> QtShanoirProcess::getProcessedDatasetList()

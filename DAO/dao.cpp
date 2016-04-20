@@ -64,7 +64,6 @@ DAO_EXPORT QMap<int,QString> findSubjectList(QString study, QString subjectFilte
 
 DAO_EXPORT QMap<int,QString> findExamList(int idStudy, int idSubject)
 {
-    qDebug() << "findExamList";
     if (tree->getExamList(idStudy,idSubject).isEmpty())
     {
         tree->acquireRefreshExamList(idStudy,idSubject);
@@ -87,7 +86,6 @@ DAO_EXPORT QMap<int,QString> findExamListf(int idStudy, int idSubject, QString e
 
 DAO_EXPORT QMap<int,QString> findDatasetList(int idStudy,int idSubject,int idExam)
 {
-    qDebug() << "findDatasetList";
     if (tree->getDatasetList(idStudy,idSubject,idExam).isEmpty())
     {
         tree->acquireRefreshDatasetList(idStudy, idSubject, idExam);
@@ -110,13 +108,6 @@ DAO_EXPORT QMap<int,QString> findDatasetListf(int idStudy, int idSubject, int id
 
 DAO_EXPORT  QList<int>  findDatasetListFilterFromField(int idStudy, int idSubject, int idExam,const std::vector<std::pair<QString,QString>> & datasetFilter,const std::vector<MatchingType> & matchingTypeFilter)
 {
-
-    //QMap<int,std::vector<QString>> res;
-
-    //std::vector<QMap<int,QString>> allMaps;
-
-
-
     if (tree->getDatasetList(idStudy,idSubject,idExam).isEmpty())
     {
         tree->acquireRefreshDatasetList(idStudy, idSubject, idExam);
@@ -147,35 +138,12 @@ DAO_EXPORT  QList<int>  findDatasetListFilterFromField(int idStudy, int idSubjec
         ++index;
     }
 
-
-
     return finalKey;
 }
 
-/*
-DAO_EXPORT QMap<int,QString> findDatasetListf(int idStudy, int idSubject, int idExam, std::vector<std::pair<QString,QString>> datasetFilter)
-{
-    qDebug() << "findDatasetList";
-    if (tree->getDatasetList(idStudy,idSubject,idExam).isEmpty())
-    {
-        tree->acquireRefreshDatasetList(idStudy, idSubject, idExam);
-    }
-    return tree->getDatasetList(idStudy,idSubject,idExam);
-
-
-
-    QMap<int,QString> allDataSet = findDatasetList(idStudy, idSubject, idExam);
-    for(QString dataset : allDataSet.values())
-    {
-        if(!dataset.contains(datasetFilter))
-            allDataSet.remove(allDataSet.key(dataset));
-    }
-    return allDataSet;
-}*/
 
 DAO_EXPORT QMap<int,QString>  findProcessList(int idStudy,int idSubject,int idExam, int idDataset)
 {
-    qDebug() << "findProcessList";
     if (tree->getProcessList(idStudy,idSubject,idExam,idDataset).isEmpty())
     {
         tree->acquireRefreshProcess_processedDatasetList(idStudy, idSubject, idExam, idDataset);
@@ -185,7 +153,6 @@ DAO_EXPORT QMap<int,QString>  findProcessList(int idStudy,int idSubject,int idEx
 
 DAO_EXPORT QMap<int,QString>  findProcessedDatasetList(int idStudy,int idSubject,int idExam, int idDataset,int idProcess)
 {
-    qDebug() << "findProcessedDatasetList";
     if (tree->getProcessedDatasetList(idStudy,idSubject,idExam,idDataset,idProcess).isEmpty())
     {
         tree->acquireRefreshProcess_processedDatasetList(idStudy, idSubject, idExam, idDataset);
@@ -259,11 +226,8 @@ DAO_EXPORT struct ProcessedDataset* getProcessedDatasetDetails(int idStudy, int 
     return str_processedDataset;
 }
 
-DAO_EXPORT void downloadFile(QString datasetId,QString directory)
+DAO_EXPORT void downloadFile(QString datasetId, QString directory)
 {
-    qDebug()<<"downloadFile";
-    qDebug()<<"datasetId"<<datasetId;
-    qDebug()<<"directory"<<directory;
     QtShanoirDownload* download = new QtShanoirDownload();
     QtShanoirMain* serviceDownload = new QtShanoirMain();
     download->getFileName(serviceDownload->getDownloadFilename(datasetId));
@@ -439,23 +403,3 @@ DAO_EXPORT void uploadProcessedDatasetFiles(QList<struct ProcessedDatasetFilesAn
     upload->uploadProcessedDatasetFiles(filesListToUpload);
 
 }
-
-//DAO_EXPORT QMap<int,QString> updateStudy()
-//{
-
-//}
-
-//DAO_EXPORT QMap<int,QString> updateSubject(int)
-//{
-
-//}
-
-//DAO_EXPORT QMap<int,QString> updateExam(int,int)
-//{
-
-//}
-
-//DAO_EXPORT QMap<int,QString> updateDataset(int,int,int)
-//{
-
-//}

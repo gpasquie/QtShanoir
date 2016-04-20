@@ -115,9 +115,7 @@ typedef DAO_EXPORT struct ProcessedDatasetFilesAndAttributes
     DAO_EXPORT struct Process* getProcessDetails(int,int,int,int,int);
     DAO_EXPORT struct ProcessedDataset* getProcessedDatasetDetails(int,int,int,int,int,int);
 
-
     DAO_EXPORT QtShanoirDataset getShanoirDataSet(int , int , int , int );
-
 
     DAO_EXPORT void downloadFile(QString,QString);
 
@@ -134,15 +132,7 @@ typedef DAO_EXPORT struct ProcessedDatasetFilesAndAttributes
 
     DAO_EXPORT void uploadProcessedDatasetFiles(QList<struct ProcessedDatasetFilesAndAttributes*>);
 
-//    DAO_EXPORT QMap<int,QString> updateStudy();
-//    DAO_EXPORT QMap<int,QString> updateSubject(int);
-//    DAO_EXPORT QMap<int,QString> updateExam(int,int);
-//    DAO_EXPORT QMap<int,QString> updateDataset(int,int,int);
-
 }
-//extern "C" DAO_EXPORT QtShanoirMain*  loadStudy(struct Subject* subject);
-
-//QtShanoirTree* tree;
 
 QtShanoirMain* servicePopulate ;
 ParseTree* parse;

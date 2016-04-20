@@ -7,8 +7,6 @@ QtShanoirTreeWidget::QtShanoirTreeWidget(QWidget *parent) : QWidget(parent),ui (
     ui->setupUi(this);
     ui->treeWidget->setColumnWidth(0,350);
     ui->treeWidget->setColumnWidth(1,50);
-    //buildTree();
-
 }
 
 void QtShanoirTreeWidget::initConnections()
@@ -55,12 +53,11 @@ void QtShanoirTreeWidget::build(QString studyFilter,QString subjectFilter,QDate 
 
     if((studyFilter!="")&&(subjectFilter=="")&&(examinationDateFilter==defaultDate)&&(datasetFilter==""))
     {
-        qDebug()<<"ffff";
         root = ui->treeWidget->findItems("shanoir-qualif.fr",Qt::MatchExactly); //inconvenient des noms similaires
         for(int i=0; i<root.size();i++)
         {
-                developTree(studyFilter,root[i]);
-                break;
+            developTree(studyFilter,root[i]);
+            break;
         }
     }
     else if((studyFilter!="")&&(subjectFilter!="")&&(examinationDateFilter==defaultDate)&&(datasetFilter==""))
@@ -69,8 +66,8 @@ void QtShanoirTreeWidget::build(QString studyFilter,QString subjectFilter,QDate 
         root = ui->treeWidget->findItems("shanoir-qualif.fr",Qt::MatchExactly); //inconvenient des noms similaires
         for(int i=0; i<root.size();i++)
         {
-                developTree(studyFilter,root[i]);
-                break;
+            developTree(studyFilter,root[i]);
+            break;
         }
 
         //FindSubject
@@ -89,11 +86,9 @@ void QtShanoirTreeWidget::build(QString studyFilter,QString subjectFilter,QDate 
                 nodef->setCheckState(0, Qt::Unchecked);
                 qDebug()<<"size"<<node.size();
                 node[j]->addChild(nodef);
-                //qDebug()<<"size"<<root[0]->childCount();
-                //*i->setExpanded(true);
 
-////                developStudy(studyFilter,subjectFilter,node[i]);
-////                qDebug() << "Children count i"<<node[i]->childCount();
+                ////                developStudy(studyFilter,subjectFilter,node[i]);
+                ////                qDebug() << "Children count i"<<node[i]->childCount();
                 break;
             }
         }
@@ -106,9 +101,9 @@ void QtShanoirTreeWidget::developTree(QString studyFilter, QTreeWidgetItem* item
 {
     QLibrary library("DAO.dll");
     if (!library.load())
-            qDebug() << library.errorString();
+        qDebug() << library.errorString();
     else
-            qDebug() << "library loaded";
+        qDebug() << "library loaded";
     typedef QMap<int,QString> (* CallFunction)(QString);
     CallFunction cf = (CallFunction)library.resolve("findStudyList");
     if (cf)
@@ -127,7 +122,6 @@ void QtShanoirTreeWidget::developTree(QString studyFilter, QTreeWidgetItem* item
                 item->addChild(node);
             }
             item->setExpanded(true);
-
         }
         else if (studyFilter != "")
         {
@@ -145,9 +139,9 @@ void QtShanoirTreeWidget::developStudy(QString study,QString subjectFilter,QTree
     qDebug()<<"adresse"<<&item;
     QLibrary library("DAO.dll");
     if (!library.load())
-            qDebug() << library.errorString();
+        qDebug() << library.errorString();
     else
-            qDebug() << "library loaded";
+        qDebug() << "library loaded";
     typedef QMap<int,QString> (* CallFunction)(QString,QString);
     CallFunction cf = (CallFunction)library.resolve("findSubjectList");
     if (cf)
@@ -181,9 +175,9 @@ void QtShanoirTreeWidget::developSubject(QTreeWidgetItem* item)
     QTreeWidgetItem* parent = item->parent();
     QLibrary library("DAO.dll");
     if (!library.load())
-            qDebug() << library.errorString();
+        qDebug() << library.errorString();
     else
-            qDebug() << "library loaded";
+        qDebug() << "library loaded";
     typedef QMap<int,QString> (* CallFunction)(int,int);
     CallFunction cf = (CallFunction)library.resolve("findExamList");
     if (cf)
@@ -193,10 +187,10 @@ void QtShanoirTreeWidget::developSubject(QTreeWidgetItem* item)
         {
             foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
             {
-               qDebug() <<"item"<< item->text(0);
-               //str is what you want
+                qDebug() <<"item"<< item->text(0);
+                //str is what you want
             }
-           // QTreeWidgetItem* sub = ui->treeWidget->selectedItems().front();
+            // QTreeWidgetItem* sub = ui->treeWidget->selectedItems().front();
             for (int i=0; i<list.size();i++)
             {
                 qDebug()<<list.values().at(i);
@@ -207,8 +201,8 @@ void QtShanoirTreeWidget::developSubject(QTreeWidgetItem* item)
                 node->setText(1, "EXAM");
                 node->setCheckState(0, Qt::Unchecked);
                 item->addChild(node);
-        }
-        item->setExpanded(true);
+            }
+            item->setExpanded(true);
         }
     }
     else
@@ -217,14 +211,13 @@ void QtShanoirTreeWidget::developSubject(QTreeWidgetItem* item)
 
 void QtShanoirTreeWidget::developExam(QTreeWidgetItem* item)
 {
-    qDebug()<<"I'm in DevelopExam";
     QTreeWidgetItem* parentSubject = item->parent();
     QTreeWidgetItem* parentStudy = parentSubject->parent();
     QLibrary library("DAO.dll");
     if (!library.load())
-            qDebug() << library.errorString();
+        qDebug() << library.errorString();
     else
-            qDebug() << "library loaded";
+        qDebug() << "library loaded";
     typedef QMap<int,QString> (* CallFunction)(int,int,int);
     CallFunction cf = (CallFunction)library.resolve("findDatasetList");
     if (cf)
@@ -234,8 +227,8 @@ void QtShanoirTreeWidget::developExam(QTreeWidgetItem* item)
         {
             foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
             {
-               qDebug() <<"item"<< item->text(0);
-               //str is what you want
+                qDebug() <<"item"<< item->text(0);
+                //str is what you want
             }
             //QTreeWidgetItem* sub = ui->treeWidget->selectedItems().front(); // la faute est ici
             for (int i=0; i<list.size();i++)
@@ -248,8 +241,8 @@ void QtShanoirTreeWidget::developExam(QTreeWidgetItem* item)
                 node->setText(1, "DATASET");
                 node->setCheckState(0, Qt::Unchecked);
                 item->addChild(node);
-        }
-        item->setExpanded(true);
+            }
+            item->setExpanded(true);
         }
     }
     else
@@ -265,9 +258,9 @@ void QtShanoirTreeWidget::developDataset(QTreeWidgetItem* item)
 
     QLibrary library("DAO.dll");
     if (!library.load())
-            qDebug() << library.errorString();
+        qDebug() << library.errorString();
     else
-            qDebug() << "library loaded";
+        qDebug() << "library loaded";
     typedef QMap<int,QString> (* CallFunction)(int,int,int,int);
     CallFunction cf = (CallFunction)library.resolve("findProcessList");
     if (cf)
@@ -277,8 +270,8 @@ void QtShanoirTreeWidget::developDataset(QTreeWidgetItem* item)
         {
             foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
             {
-               qDebug() <<"item"<< item->text(0);
-               //str is what you want
+                qDebug() <<"item"<< item->text(0);
+                //str is what you want
             }
             for (int i=0; i<list.size();i++)
             {
@@ -289,8 +282,8 @@ void QtShanoirTreeWidget::developDataset(QTreeWidgetItem* item)
                 node->setIcon(0, QIcon(":Images/process.64x64.png"));
                 node->setText(1, "PROCESS");
                 item->addChild(node);
-        }
-        item->setExpanded(true);
+            }
+            item->setExpanded(true);
         }
     }
     else
@@ -299,7 +292,6 @@ void QtShanoirTreeWidget::developDataset(QTreeWidgetItem* item)
 
 void QtShanoirTreeWidget::developProcess(QTreeWidgetItem* item)
 {
-    qDebug()<<"I'm in developProcess";
     QTreeWidgetItem* parentDataset = item->parent();
     QTreeWidgetItem* parentExam = parentDataset->parent();
     QTreeWidgetItem* parentSubject = parentExam->parent();
@@ -307,9 +299,9 @@ void QtShanoirTreeWidget::developProcess(QTreeWidgetItem* item)
 
     QLibrary library("DAO.dll");
     if (!library.load())
-            qDebug() << library.errorString();
+        qDebug() << library.errorString();
     else
-            qDebug() << "library loaded";
+        qDebug() << "library loaded";
     typedef QMap<int,QString> (* CallFunction)(int,int,int,int,int);
     CallFunction cf = (CallFunction)library.resolve("findProcessedDatasetList");
     if (cf)
@@ -319,8 +311,8 @@ void QtShanoirTreeWidget::developProcess(QTreeWidgetItem* item)
         {
             foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
             {
-               qDebug() <<"item"<< item->text(0);
-               //str is what you want
+                qDebug() <<"item"<< item->text(0);
+                //str is what you want
             }
             for (int i=0; i<list.size();i++)
             {
@@ -332,8 +324,8 @@ void QtShanoirTreeWidget::developProcess(QTreeWidgetItem* item)
                 node->setText(1, "PROCESSED DATASET");
                 node->setCheckState(0, Qt::Unchecked);
                 item->addChild(node);
-        }
-        item->setExpanded(true);
+            }
+            item->setExpanded(true);
         }
     }
     else
@@ -346,14 +338,13 @@ void QtShanoirTreeWidget::updateCheckBoxes(QTreeWidgetItem * item,int column)
     {
         if ((item->type() == QTreeWidgetItem::UserType + 5) && !selectedIds.contains(item->data(0, QTreeWidgetItem::UserType + 5).toInt()))
         {
-            qDebug()<<" +5";
             selectedIds.insert(item->data(0, QTreeWidgetItem::UserType + 5).toInt(), item->text(0));
         }
-//        if ((item->type() == QTreeWidgetItem::UserType + 7) && !selectedIds.contains(item->data(0, QTreeWidgetItem::UserType + 7).toInt()))
-//        {
-//            qDebug()<<" +7";
-//            selectedIds.insert(item->data(0, QTreeWidgetItem::UserType + 7).toInt(), item->text(0));
-//        }
+        //        if ((item->type() == QTreeWidgetItem::UserType + 7) && !selectedIds.contains(item->data(0, QTreeWidgetItem::UserType + 7).toInt()))
+        //        {
+        //            qDebug()<<" +7";
+        //            selectedIds.insert(item->data(0, QTreeWidgetItem::UserType + 7).toInt(), item->text(0));
+        //        }
         if ((item->type() != QTreeWidgetItem::UserType + 5))//&&(item->type() != QTreeWidgetItem::UserType + 7))
         {
             if (item->childCount()==0)
@@ -417,72 +408,64 @@ void QtShanoirTreeWidget::updateCheckBoxes(QTreeWidgetItem * item,int column)
 
 void QtShanoirTreeWidget::extend(QTreeWidgetItem* item,int)
 {
-        qDebug()<<"value item"<<item->text(0);
-        if (!item->data(0, QTreeWidgetItem::UserType + 1).isNull())
-        {
-            qDebug()<<"i'm clicked 1";
-            qDebug()<<"adresse"<<&item;
-            qDebug()<<"Server"<<item->data(0, QTreeWidgetItem::UserType + 2).toString();
-            if (item->childCount() == 0)
-                developTree("",item);
-        }
-         if (!item->data(0, QTreeWidgetItem::UserType + 2).isNull())
-         {
-             qDebug()<<"i'm clicked 2";
-             qDebug()<<"adresse"<<&item;
-             qDebug()<<"study"<<item->data(0, QTreeWidgetItem::UserType + 2).toString();
-             if (item->childCount() == 0)
-                 developStudy(item->text(0),"",item);
-             emit getStudyDetails(item->text(0));
-         }
-         if (!item->data(0, QTreeWidgetItem::UserType + 3).isNull())
-          {
-             qDebug()<<"i'm clicked 3";
-             qDebug()<<"adresse"<<&item;
-             QTreeWidgetItem* parent = item->parent();
+    if (!item->data(0, QTreeWidgetItem::UserType + 1).isNull())
+    {
+        qDebug()<<"adresse"<<&item;
+        qDebug()<<"Server"<<item->data(0, QTreeWidgetItem::UserType + 2).toString();
+        if (item->childCount() == 0)
+            developTree("",item);
+    }
+    if (!item->data(0, QTreeWidgetItem::UserType + 2).isNull())
+    {
+        qDebug()<<"adresse"<<&item;
+        qDebug()<<"study"<<item->data(0, QTreeWidgetItem::UserType + 2).toString();
+        if (item->childCount() == 0)
+            developStudy(item->text(0),"",item);
+        emit getStudyDetails(item->text(0));
+    }
+    if (!item->data(0, QTreeWidgetItem::UserType + 3).isNull())
+    {
+        qDebug()<<"adresse"<<&item;
+        QTreeWidgetItem* parent = item->parent();
 
-             if ( item->childCount() == 0)
-                 developSubject(item);
-             emit getSubjectDetails(parent->data(0, QTreeWidgetItem::UserType + 2).toInt(),item->data(0, QTreeWidgetItem::UserType + 3).toInt());
-         }
-         if (!item->data(0, QTreeWidgetItem::UserType + 4).isNull())
-          {
-             QTreeWidgetItem* parentSubject = item->parent();
-             QTreeWidgetItem* parentStudy = parentSubject->parent();
-             qDebug()<<"i'm clicked 4";
-             if ( item->childCount() == 0)
-                 developExam(item);
-             emit getExamDetails(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(),parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),item->data(0, QTreeWidgetItem::UserType + 4).toInt());
-         }
-         if (!item->data(0, QTreeWidgetItem::UserType + 5).isNull())
-         {
-             QTreeWidgetItem* parentExam = item->parent();
-             QTreeWidgetItem* parentSubject = parentExam->parent();
-             QTreeWidgetItem* parentStudy = parentSubject->parent();
-             qDebug()<<"i'm clicked 5";
-             if ( item->childCount() == 0)
-                 developDataset(item);
-             emit getDatasetDetails(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(),parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),parentExam->data(0, QTreeWidgetItem::UserType + 4).toInt(),item->data(0, QTreeWidgetItem::UserType + 5).toInt());
-         }
-         if (!item->data(0, QTreeWidgetItem::UserType + 6).isNull())
-         {
-             QTreeWidgetItem* parentDataset = item->parent();
-             QTreeWidgetItem* parentExam = parentDataset->parent();
-             QTreeWidgetItem* parentSubject = parentExam->parent();
-             QTreeWidgetItem* parentStudy = parentSubject->parent();
-             qDebug()<<"i'm clicked 6";
-             if ( item->childCount() == 0)
-                 developProcess(item);
-             emit getProcessDetails(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(),parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),parentExam->data(0, QTreeWidgetItem::UserType + 4).toInt(),parentDataset->data(0, QTreeWidgetItem::UserType + 5).toInt(),item->data(0, QTreeWidgetItem::UserType + 6).toInt());
-         }
-         if (!item->data(0, QTreeWidgetItem::UserType + 7).isNull())
-         {
-             QTreeWidgetItem* parentProcess = item->parent();
-             QTreeWidgetItem* parentDataset = parentProcess->parent();
-             QTreeWidgetItem* parentExam = parentDataset->parent();
-             QTreeWidgetItem* parentSubject = parentExam->parent();
-             QTreeWidgetItem* parentStudy = parentSubject->parent();
-             qDebug()<<"i'm clicked 7";
-             emit getProcessedDatasetDetails(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(),parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),parentExam->data(0, QTreeWidgetItem::UserType + 4).toInt(),parentDataset->data(0, QTreeWidgetItem::UserType + 5).toInt(),parentProcess->data(0, QTreeWidgetItem::UserType + 6).toInt(),item->data(0, QTreeWidgetItem::UserType + 7).toInt());
-         }
+        if ( item->childCount() == 0)
+            developSubject(item);
+        emit getSubjectDetails(parent->data(0, QTreeWidgetItem::UserType + 2).toInt(),item->data(0, QTreeWidgetItem::UserType + 3).toInt());
+    }
+    if (!item->data(0, QTreeWidgetItem::UserType + 4).isNull())
+    {
+        QTreeWidgetItem* parentSubject = item->parent();
+        QTreeWidgetItem* parentStudy = parentSubject->parent();
+        if ( item->childCount() == 0)
+            developExam(item);
+        emit getExamDetails(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(),parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),item->data(0, QTreeWidgetItem::UserType + 4).toInt());
+    }
+    if (!item->data(0, QTreeWidgetItem::UserType + 5).isNull())
+    {
+        QTreeWidgetItem* parentExam = item->parent();
+        QTreeWidgetItem* parentSubject = parentExam->parent();
+        QTreeWidgetItem* parentStudy = parentSubject->parent();
+        if ( item->childCount() == 0)
+            developDataset(item);
+        emit getDatasetDetails(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(),parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),parentExam->data(0, QTreeWidgetItem::UserType + 4).toInt(),item->data(0, QTreeWidgetItem::UserType + 5).toInt());
+    }
+    if (!item->data(0, QTreeWidgetItem::UserType + 6).isNull())
+    {
+        QTreeWidgetItem* parentDataset = item->parent();
+        QTreeWidgetItem* parentExam = parentDataset->parent();
+        QTreeWidgetItem* parentSubject = parentExam->parent();
+        QTreeWidgetItem* parentStudy = parentSubject->parent();
+        if ( item->childCount() == 0)
+            developProcess(item);
+        emit getProcessDetails(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(),parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),parentExam->data(0, QTreeWidgetItem::UserType + 4).toInt(),parentDataset->data(0, QTreeWidgetItem::UserType + 5).toInt(),item->data(0, QTreeWidgetItem::UserType + 6).toInt());
+    }
+    if (!item->data(0, QTreeWidgetItem::UserType + 7).isNull())
+    {
+        QTreeWidgetItem* parentProcess = item->parent();
+        QTreeWidgetItem* parentDataset = parentProcess->parent();
+        QTreeWidgetItem* parentExam = parentDataset->parent();
+        QTreeWidgetItem* parentSubject = parentExam->parent();
+        QTreeWidgetItem* parentStudy = parentSubject->parent();
+        emit getProcessedDatasetDetails(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(),parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),parentExam->data(0, QTreeWidgetItem::UserType + 4).toInt(),parentDataset->data(0, QTreeWidgetItem::UserType + 5).toInt(),parentProcess->data(0, QTreeWidgetItem::UserType + 6).toInt(),item->data(0, QTreeWidgetItem::UserType + 7).toInt());
+    }
 }

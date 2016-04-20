@@ -2,7 +2,6 @@
 #include <QMessageBox>
 
 QtShanoirUploadWidgetDragFiles::QtShanoirUploadWidgetDragFiles(QWidget *parent):QWizardPage(parent),ui (new Ui::QtShanoirUploadWidgetDragFiles)
-
 {
     ui->setupUi(this);
     setButtonText(QWizard::NextButton,tr("Next >"));
@@ -49,9 +48,6 @@ void QtShanoirUploadWidgetDragFiles::deleteClicked(int row)
     filesList.removeAll(filename);
     emit callUpdateFilesList(filesList);
     ui->filesTable->removeRow(row);
-
-
-
 }
 
 void QtShanoirUploadWidgetDragFiles::toCallSelectStudy(QString study)

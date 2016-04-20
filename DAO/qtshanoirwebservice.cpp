@@ -39,7 +39,6 @@ bool QtShanoirWebService::QueryStruct(QString WebService, QString WsMethod, QStr
         qApp->processEvents(); //a voir
     queryResult = query.getresult();
     return query.getRequestSuccess();
-        //return true;
 }
 
 bool QtShanoirWebService::Query(QString WebService, QString WsMethod, QString WsImpl, QStringList argname, QStringList argval, QString &queryResult)
@@ -50,7 +49,6 @@ bool QtShanoirWebService::Query(QString WebService, QString WsMethod, QString Ws
         qApp->processEvents(); //a voir
     queryResult = query.getresult();
     return query.getRequestSuccess();
-        //return true;
 }
 
 

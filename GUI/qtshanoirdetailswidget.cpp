@@ -6,16 +6,14 @@
 QtShanoirDetailsWidget::QtShanoirDetailsWidget(QWidget *parent) : QWidget(parent),ui (new Ui::QtShanoirDetailsWidget)
 {
     ui->setupUi(this);
-    qDebug()<<"c'est bon";
-
 }
 
 void QtShanoirDetailsWidget::getStudyDetails(QString studyName)
 {
-    typedef struct Study
+    struct Study
     {
         QString name;
-    }Study;
+    };
 
     QLibrary library("DAO.dll");
     if (!library.load())
@@ -26,7 +24,7 @@ void QtShanoirDetailsWidget::getStudyDetails(QString studyName)
     CallFunction cf = (CallFunction)library.resolve("getStudyDetails");
     if (cf)
     {
-        struct Study* study = cf(studyName);
+        Study* study = cf(studyName);
 
         //Clear GridLayout
         while(ui->gridLayout->count())
@@ -57,12 +55,12 @@ void QtShanoirDetailsWidget::getStudyDetails(QString studyName)
 
 void QtShanoirDetailsWidget::getSubjectDetails(int idStudy, int idSubject)
 {
-    typedef struct Subject
+    struct Subject
     {
         QString name;
         QDate birthDate;
         QChar sexe;
-    }Subject;
+    };
 
     QLibrary library("DAO.dll");
     if (!library.load())
@@ -73,7 +71,7 @@ void QtShanoirDetailsWidget::getSubjectDetails(int idStudy, int idSubject)
     CallFunction cf = (CallFunction)library.resolve("getSubjectDetails");
     if (cf)
     {
-        struct Subject* subject = cf(idStudy,idSubject);
+        Subject* subject = cf(idStudy,idSubject);
 
         //Clear GridLayout
         while(ui->gridLayout->count())
@@ -113,22 +111,22 @@ void QtShanoirDetailsWidget::getSubjectDetails(int idStudy, int idSubject)
 
 void QtShanoirDetailsWidget::getExamDetails(int idStudy, int idSubject, int idExam)
 {
-    typedef struct Exam
+    struct Exam
     {
         QString comment;
         QDate date;
-    }Exam;
+    };
 
     QLibrary library("DAO.dll");
     if (!library.load())
             qDebug() << library.errorString();
     else
             qDebug() << "library loaded";
-    typedef  struct Exam* (* CallFunction)(int,int,int);
+    typedef struct Exam* (* CallFunction)(int,int,int);
     CallFunction cf = (CallFunction)library.resolve("getExamDetails");
     if (cf)
     {
-        struct Exam* exam = cf(idStudy,idSubject,idExam);
+        Exam* exam = cf(idStudy,idSubject,idExam);
 
         //Clear GridLayout
         while(ui->gridLayout->count())
@@ -164,7 +162,7 @@ void QtShanoirDetailsWidget::getExamDetails(int idStudy, int idSubject, int idEx
 
 void QtShanoirDetailsWidget::getDatasetDetails(int idStudy, int idSubject, int idExam, int idDataset)
 {
-    typedef struct Dataset
+    struct Dataset
     {
         QString name;
         QDate creationDate;
@@ -172,7 +170,7 @@ void QtShanoirDetailsWidget::getDatasetDetails(int idStudy, int idSubject, int i
         float repetitionTime;
         float flipAngle;
         float echoTime;
-    }Dataset;
+    };
 
     QLibrary library("DAO.dll");
     if (!library.load())
@@ -235,11 +233,11 @@ void QtShanoirDetailsWidget::getDatasetDetails(int idStudy, int idSubject, int i
 
 void QtShanoirDetailsWidget::getProcessDetails(int idStudy,int idSubject,int idExam,int idDataset,int idProcess)
 {
-    typedef struct Process
+    struct Process
     {
         QString name;
         QDate creationDate;
-    }Process;
+    };
 
     QLibrary library("DAO.dll");
     if (!library.load())
@@ -250,7 +248,7 @@ void QtShanoirDetailsWidget::getProcessDetails(int idStudy,int idSubject,int idE
     CallFunction cf = (CallFunction)library.resolve("getProcessDetails");
     if (cf)
     {
-        struct Process* process = cf(idStudy,idSubject,idExam,idDataset,idProcess);
+        Process* process = cf(idStudy,idSubject,idExam,idDataset,idProcess);
 
         //Clear GridLayout
         while(ui->gridLayout->count())
@@ -286,12 +284,12 @@ void QtShanoirDetailsWidget::getProcessDetails(int idStudy,int idSubject,int idE
 
 void QtShanoirDetailsWidget::getProcessedDatasetDetails(int idStudy,int idSubject,int idExam,int idDataset,int idProcess, int idProcessedDataset)
 {
-    typedef struct ProcessedDataset
+    struct ProcessedDataset
     {
         QString name;
         QString comment;
         QDate processedDatasetCreationDate;
-    }ProcessedDataset;
+    };
 
     QLibrary library("DAO.dll");
     if (!library.load())
@@ -302,7 +300,7 @@ void QtShanoirDetailsWidget::getProcessedDatasetDetails(int idStudy,int idSubjec
     CallFunction cf = (CallFunction)library.resolve("getProcessedDatasetDetails");
     if (cf)
     {
-        struct ProcessedDataset* process = cf(idStudy,idSubject,idExam,idDataset,idProcess,idProcessedDataset);
+        ProcessedDataset* process = cf(idStudy,idSubject,idExam,idDataset,idProcess,idProcessedDataset);
 
         //Clear GridLayout
         while(ui->gridLayout->count())

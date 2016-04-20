@@ -6,12 +6,13 @@ project(qtshanoir-demo)
 ## List Sources
 ## #############################################################################
 
-list_source_files(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR} )
+list_source_files(${PROJECT_NAME}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    )
 
 ## #############################################################################
 ## include directorie.
 ## #############################################################################
-
 
 include_directories(${${PROJECT_NAME}_INCLUDE_DIRS} ${QuaZip_INCLUDE_DIRS} ${DAO_INCLUDE_DIRS} ${GUI_INCLUDE_DIRS} )
 
@@ -25,7 +26,7 @@ include_directories(${${PROJECT_NAME}_INCLUDE_DIRS} ${QuaZip_INCLUDE_DIRS} ${DAO
 ## Lib definition.
 ## #############################################################################
 
-qt4_wrap_ui(${PROJECT_NAME}_UI ${${PROJECT_NAME}_UI} )
+#qt4_wrap_ui(${PROJECT_NAME}_UI ${${PROJECT_NAME}_UI} )
 
 add_executable(${PROJECT_NAME}
   ${${PROJECT_NAME}_CFILES}
@@ -37,6 +38,5 @@ target_link_libraries(${PROJECT_NAME}
   ${QT_LIBRARIES}
   DAO GUI
   )
-message("lib ${QT_LIBRARIES}") 
 
 set_exe_install_rules(${PROJECT_NAME})

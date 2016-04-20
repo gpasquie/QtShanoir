@@ -22,10 +22,7 @@ void QtShanoirStudy::setName(QString name)
 
 void QtShanoirStudy::insertSubject(QtShanoirSubject subject)
 {
-    qDebug()<<"I'm in insertSubject";
-    qDebug()<<"size subjectList"<<subjectList.size();
     this->subjectList.append(subject);
-    qDebug()<<"fin insertSubject";
 }
 
 void QtShanoirStudy::insertExam(QtShanoirExam exam,int idSubject)
@@ -35,23 +32,18 @@ void QtShanoirStudy::insertExam(QtShanoirExam exam,int idSubject)
 
 void QtShanoirStudy::displaySubjectList()
 {
-    qDebug()<<"I'm in displaySubjectList";
     for (int i=0; i<subjectList.size();i++)
        qDebug()<<"Subject:"<<subjectList.value(i).getName();
-    qDebug()<<"Fin displaySubjectList";
 }
 
 void QtShanoirStudy::displaySubjectList_exam()
 {
-    qDebug()<<"I'm in displaySubjectList_exam";
     for (int i=0; i<subjectList.size();i++)
     {
 
         qDebug()<<"Subject:"<<subjectList.value(i).getName();
         subjectList.value(i).displayExamList();
     }
-
-    qDebug()<<"Fin displaySubjectList";
 }
 
 QMap<int,QString> QtShanoirStudy::getSubjectList(QString subjectFilter)
@@ -68,14 +60,11 @@ QMap<int,QString> QtShanoirStudy::getSubjectList(QString subjectFilter)
     return list;
 }
 
-
 QtShanoirSubject& QtShanoirStudy::getSubjectById(int id)
 {
-
     for (int i=0; i<subjectList.size();i++)
         if(subjectList.value(i).getId()== id)
             return subjectList[i];
-    //return hy;
 }
 
 QtShanoirSubject QtShanoirStudy::getSubjectByName(QString name)
@@ -87,7 +76,6 @@ QtShanoirSubject QtShanoirStudy::getSubjectByName(QString name)
 
 void QtShanoirStudy::acquireRefreshExamListAllSubject()
 {
-    qDebug()<<"size"<<subjectList.size();
     for (int i=0; i<subjectList.size();i++)
         subjectList.value(i).acquireRefreshExamList();
 }

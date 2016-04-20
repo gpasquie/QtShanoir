@@ -56,10 +56,8 @@ void QtShanoirExam::insertDataset(QtShanoirDataset dataset)
 
 void QtShanoirExam::displayDatasetList()
 {
-    qDebug()<<"I'm in displayDatasetList";
     for (int i=0; i<datasetList.size();i++)
       qDebug()<<"Dataset:"<<datasetList.value(i).getName();
-    qDebug()<<"Fin displayDatasetList";
 }
 
 QMap<int,QString> QtShanoirExam::getDatasetList()

@@ -16,29 +16,26 @@ int main( int argc , char *argv[] )
 {
     QApplication app(argc, argv);
 
-            QDir iniDir (QDir::homePath() + QDir::separator() + ".shanoir");
-            if (!iniDir.exists())
-                QDir(QDir::homePath()).mkdir(".shanoir");
-            QString iniFile = iniDir.absolutePath() + QDir::separator() + "properties";
+    QDir iniDir (QDir::homePath() + QDir::separator() + ".shanoir");
+    if (!iniDir.exists())
+        QDir(QDir::homePath()).mkdir(".shanoir");
+    QString iniFile = iniDir.absolutePath() + QDir::separator() + "properties";
 
-                QLibrary library(DAO_LIB);
-                if (!library.load())
-                        qDebug() << library.errorString();
-                else
-                        qDebug() << "library loaded";
-                typedef void (* CallFunction)(QString);
-                CallFunction cf = (CallFunction)library.resolve("configureSettings");
-                if (cf)
-                {
-                     cf(iniFile);
-                }
-                else
-                    qDebug() << "could not call function";
+    QLibrary library(DAO_LIB);
+    if (!library.load())
+        qDebug() << library.errorString();
+    else
+        qDebug() << "library loaded";
+    typedef void (* CallFunction)(QString);
+    CallFunction cf = (CallFunction)library.resolve("configureSettings");
+    if (cf)
+    {
+        cf(iniFile);
+    }
+    else
+        qDebug() << "could not call function";
 
-
-
-
-/*
+    /*
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + QLocale::system().name(),QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     app.installTranslator(&qtTranslator);
@@ -52,19 +49,19 @@ int main( int argc , char *argv[] )
     //SetDllDirectory("QDir::separator() + GUI");
     //QCoreApplication::addLibraryPath("..\\GUI\\");
 
-//        QLibrary dao_library("DAO.dll");
-//        if (!dao_library.load())
-//                qDebug() << dao_library.errorString();
-//        else
-//                qDebug() << "library loaded";
+    //        QLibrary dao_library("DAO.dll");
+    //        if (!dao_library.load())
+    //                qDebug() << dao_library.errorString();
+    //        else
+    //                qDebug() << "library loaded";
 
-         QLibrary gui_library(GUI_LIB);
-        if (!gui_library.load())
-                qDebug() << gui_library.errorString();
+    QLibrary gui_library(GUI_LIB);
+    if (!gui_library.load())
+        qDebug() << gui_library.errorString();
     else
         qDebug() << "library loaded";
     typedef Demo* (* CreateWidgetFunction)(void);
-        CreateWidgetFunction cwf = (CreateWidgetFunction)gui_library.resolve("createShanoirMainwidget");
+    CreateWidgetFunction cwf = (CreateWidgetFunction)gui_library.resolve("createShanoirMainwidget");
     if (cwf)
     {
         Demo* wid = cwf();
@@ -75,6 +72,6 @@ int main( int argc , char *argv[] )
     {
         qDebug() << "Could not show widget from the loaded library";
     }
- return app.exec();
+    return app.exec();
 }
 

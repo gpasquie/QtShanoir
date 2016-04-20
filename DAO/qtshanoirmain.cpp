@@ -3,7 +3,7 @@
 #include <QDebug>
 namespace GlobalData
 {
-	QtShanoirSettings settings;
+QtShanoirSettings settings;
 }
 
 QtShanoirMain::QtShanoirMain()
@@ -34,7 +34,7 @@ QString QtShanoirMain::authentification()
     QString ws = "StudyFinder";
     QString impl ( "http://finder.impl.webservices.shanoir.org/" );
 
-   QString xmlserializer;
+    QString xmlserializer;
 
     bool querySuccess = QtShanoirWebService::Query ( ws, "setUsername", impl, QStringList() << "username", QStringList() <<  GlobalData::settings.getLogin(), xmlserializer);
 
@@ -58,10 +58,10 @@ QString QtShanoirMain::authentification()
 QString QtShanoirMain::acquireStudy_Subject()
 {
     qDebug()<<"Debut Populate";
-//    QtSoapNamespaces& registry = QtSoapNamespaces::instance();
-//    registry.registerNamespace("ns1","http://impl.webservices.shanoir.org/");
-//    registry.registerNamespace("ns2", "http://finder.impl.webservices.shanoir.org/");
-//    registry.registerNamespace("ns3", "http://importer.impl.webservices.shanoir.org/");
+    //    QtSoapNamespaces& registry = QtSoapNamespaces::instance();
+    //    registry.registerNamespace("ns1","http://impl.webservices.shanoir.org/");
+    //    registry.registerNamespace("ns2", "http://finder.impl.webservices.shanoir.org/");
+    //    registry.registerNamespace("ns3", "http://importer.impl.webservices.shanoir.org/");
 
     QString ws = "StudyFinder";
     QString impl ("http://finder.impl.webservices.shanoir.org/");
@@ -70,29 +70,27 @@ QString QtShanoirMain::acquireStudy_Subject()
 
     authentification();
 
-//    bool querySuccess = QtShanoirWebService::Query ( ws, "setUsername", impl, QStringList() << "username", QStringList() << login, xmlserializer);
+    //    bool querySuccess = QtShanoirWebService::Query ( ws, "setUsername", impl, QStringList() << "username", QStringList() << login, xmlserializer);
 
-//    if (!querySuccess)
-//    {
-//        qDebug()<< xmlserializer;
-//        //emit queryFailed(xmlserial);
-//        qDebug()<<" error setUsername";
-//        //return;
-//    }
-//    querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "dummy", QStringList() << password, xmlserializer);
-//    if (!querySuccess)
-//    {
-//        //emit queryFailed(xmlserial);
-//        qDebug()<<"error setPassword";
-//        //return;
-//    }
+    //    if (!querySuccess)
+    //    {
+    //        qDebug()<< xmlserializer;
+    //        //emit queryFailed(xmlserial);
+    //        qDebug()<<" error setUsername";
+    //        //return;
+    //    }
+    //    querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "dummy", QStringList() << password, xmlserializer);
+    //    if (!querySuccess)
+    //    {
+    //        //emit queryFailed(xmlserial);
+    //        qDebug()<<"error setPassword";
+    //        //return;
+    //    }
 
     querySucess = QtShanoirWebService::Query(ws,"find",impl,QStringList(),QStringList(),xmlserializer);
     if (!querySucess)
     {
-       // emit queryFailed(xmlserializer);
         qDebug()<<"error studyName";
-        //return;
     }
 
 
@@ -102,7 +100,6 @@ QString QtShanoirMain::acquireStudy_Subject()
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         qDebug() << " Could not open file for writing";
-        //return;
     }
     QTextStream out(&file);
     out << xmlserializer;
@@ -110,54 +107,46 @@ QString QtShanoirMain::acquireStudy_Subject()
 
 
 
-return xmlserializer;
+    return xmlserializer;
 
 
 }
 
 QString QtShanoirMain::acquireExam(QString str)
 {
-         QString ws = "ExaminationFinder";
-        QString impl = "http://finder.impl.webservices.shanoir.org/";
+    QString ws = "ExaminationFinder";
+    QString impl = "http://finder.impl.webservices.shanoir.org/";
 
-        QString xmlserializer;
-        //authentification();
-        QString login = "ttest";
-        QString password = "shanoir$1";
-        bool querySuccess ;
-        querySuccess= QtShanoirWebService::Query ( ws, "setUsername", impl, QStringList() << "username", QStringList() << GlobalData::settings.getLogin(), xmlserializer);
+    QString xmlserializer;
+    //authentification();
+    QString login = "ttest";
+    QString password = "shanoir$1";
+    bool querySuccess ;
+    querySuccess= QtShanoirWebService::Query ( ws, "setUsername", impl, QStringList() << "username", QStringList() << GlobalData::settings.getLogin(), xmlserializer);
 
-        if (!querySuccess)
-        {
-            qDebug()<< xmlserializer;
-            //emit queryFailed(xmlserial);
-            qDebug()<<" error setUsername";
-            //return;
-        }
-        querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "dummy", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
-        if (!querySuccess)
-        {
-            //emit queryFailed(xmlserial);
-            qDebug()<<"error setPassword";
-            //return;
-        }
+    if (!querySuccess)
+    {
+        qDebug()<< xmlserializer;
+        qDebug()<<" error setUsername";
+    }
+    querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "dummy", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
+    if (!querySuccess)
+    {
+        qDebug()<<"error setPassword";
+    }
 
 
 
     querySuccess = QtShanoirWebService::Query ( ws, "setSubjectIds", impl, QStringList() << "examinationSubjectIds", QStringList() << str, xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setSubjectIds";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query ( ws, "find", impl, QStringList(), QStringList(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserializer);
         qDebug()<<"error find";
-        //return;
     }
 
     QFile file("examination.xml");
@@ -170,8 +159,6 @@ QString QtShanoirMain::acquireExam(QString str)
     file.close();
 
     return xmlserializer;
-
-
 }
 
 QString QtShanoirMain::acquireDataset(QString idSubject,QString idExam)
@@ -189,54 +176,42 @@ QString QtShanoirMain::acquireDataset(QString idSubject,QString idExam)
     if (!querySuccess)
     {
         qDebug()<< xmlserializer;
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "dummy", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
 
-        querySuccess = QtShanoirWebService::Query ( ws, "setSubjectIds", impl, QStringList() << "datasetSubjectIds", QStringList() << idSubject, xmlserializer);
-        if (!querySuccess)
-        {
-            //emit queryFailed(xmlserial);
-            qDebug()<<"error setSubjectIds";
-            //return;
-        }
+    querySuccess = QtShanoirWebService::Query ( ws, "setSubjectIds", impl, QStringList() << "datasetSubjectIds", QStringList() << idSubject, xmlserializer);
+    if (!querySuccess)
+    {
+        qDebug()<<"error setSubjectIds";
+    }
 
-        querySuccess = QtShanoirWebService::Query ( ws, "setExaminationIds", impl, QStringList() << "datasetExaminations", QStringList() << idExam, xmlserializer);
-        if (!querySuccess)
-        {
-           // emit queryFailed(xmlserial);
-            qDebug()<<"error setExaminationIds";
-            //return;
-        }
+    querySuccess = QtShanoirWebService::Query ( ws, "setExaminationIds", impl, QStringList() << "datasetExaminations", QStringList() << idExam, xmlserializer);
+    if (!querySuccess)
+    {
+        qDebug()<<"error setExaminationIds";
+    }
 
-        querySuccess = QtShanoirWebService::Query ( ws, "find", impl, QStringList(), QStringList(), xmlserializer);
-        if (!querySuccess)
-        {
-           // emit queryFailed(xmlserial);
-            qDebug()<<"error find";
-            //return;
-        }
+    querySuccess = QtShanoirWebService::Query ( ws, "find", impl, QStringList(), QStringList(), xmlserializer);
+    if (!querySuccess)
+    {
+        qDebug()<<"error find";
+    }
 
-        QFile file("dataset.xml");
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        {
-            qDebug() << " Could not open file for writing";
-        }
-        QTextStream out(&file);
-        out << xmlserializer;
-        file.close();
+    QFile file("dataset.xml");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        qDebug() << " Could not open file for writing";
+    }
+    QTextStream out(&file);
+    out << xmlserializer;
+    file.close();
 
-        return xmlserializer;
-
-
+    return xmlserializer;
 }
 
 QString QtShanoirMain::acquireProcess_ProcessedDataset(QString idDataset)
@@ -252,32 +227,24 @@ QString QtShanoirMain::acquireProcess_ProcessedDataset(QString idDataset)
     if (!querySuccess)
     {
         qDebug()<< xmlserializer;
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "dummy", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query ( ws, "setInputDatasetIds", impl, QStringList() << "datasetIds", QStringList() << idDataset, xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setInputDatasetIds";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query ( ws, "find", impl, QStringList(), QStringList(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error find";
-        //return;
     }
 
     QFile file("process.xml");
@@ -290,7 +257,6 @@ QString QtShanoirMain::acquireProcess_ProcessedDataset(QString idDataset)
     file.close();
 
     return xmlserializer;
-
 }
 
 void QtShanoirMain::downloadMetadata(QString datasetId)
@@ -302,58 +268,50 @@ void QtShanoirMain::downloadMetadata(QString datasetId)
     bool querySuccess = QtShanoirWebService::Query ( ws, "setUsername", impl, QStringList() << "username", QStringList() << GlobalData::settings.getLogin(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"setUsername";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "dummy", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"setPassword";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query ( ws, "setDatasetIds", impl, QStringList() << "datasetIds", QStringList() << datasetId, xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"setDatasetIds";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query ( ws, "find", impl, QStringList(), QStringList(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"find";
-        //return;
     }
 
-//    QString xmlserializerError;
-//    querySuccess = QtShanoirWebService::Query ( ws, "getErrorMessage", impl, QStringList(), QStringList(), xmlserializerError);
-//    if (!querySuccess)
-//    {
-//        emit queryFailed(xmlserializerError);
-//        return;
-//    }
+    //    QString xmlserializerError;
+    //    querySuccess = QtShanoirWebService::Query ( ws, "getErrorMessage", impl, QStringList(), QStringList(), xmlserializerError);
+    //    if (!querySuccess)
+    //    {
+    //        emit queryFailed(xmlserializerError);
+    //        return;
+    //    }
 
-//    if (this->getErrorMessage(xmlserializerError) != "")
-//    {
-//        emit queryFailed(this->getErrorMessage(xmlserialError));
-//    }
+    //    if (this->getErrorMessage(xmlserializerError) != "")
+    //    {
+    //        emit queryFailed(this->getErrorMessage(xmlserialError));
+    //    }
 
-//    QDomDocument doc;
-//    doc.setContent (xmlserializer);
+    //    QDomDocument doc;
+    //    doc.setContent (xmlserializer);
 
-//    QString tmpName = downloadFileName.replace ( ".nii", ".xml" ).replace ( ".zip", ".xml" );
-//    tmpName.replace ( QDir::separator(),"_" );
+    //    QString tmpName = downloadFileName.replace ( ".nii", ".xml" ).replace ( ".zip", ".xml" );
+    //    tmpName.replace ( QDir::separator(),"_" );
 
-//    QFile dFile (downloadDir + QDir::separator() + tmpName);
-//    dFile.open ( QFile::WriteOnly );
-//    dFile.write ( doc.toString().toUtf8().data());
-//    dFile.close();
+    //    QFile dFile (downloadDir + QDir::separator() + tmpName);
+    //    dFile.open ( QFile::WriteOnly );
+    //    dFile.write ( doc.toString().toUtf8().data());
+    //    dFile.close();
 
 }
 
@@ -369,51 +327,41 @@ QString QtShanoirMain::getDownloadFilename (QString datasetId)
     querySuccess = QtShanoirWebService::Query ( ws, "setUsername", impl, QStringList() << "username", QStringList() << GlobalData::settings.getLogin(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserializer);
         qDebug()<<"setUsername";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "dummy", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserializer);
         qDebug()<<"setPassword";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query ( ws, "setDatasetId", impl, QStringList() << "datasetId", QStringList() << datasetId, xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserializer);
         qDebug()<<"setDatasetId";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query ( ws, "getFileName", impl, QStringList(), QStringList(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"getFileName";
-        //return;
     }
 
-//    QString xmlserializerError;
-//    querySuccess = QtShanoirWebService::Query ( ws, "getErrorMessage", impl, QStringList(), QStringList(), xmlserializerError);
-//    if (!querySuccess)
-//    {
-//        emit queryFailed(xmlserializer);
-//        return;
-//    }
+    //    QString xmlserializerError;
+    //    querySuccess = QtShanoirWebService::Query ( ws, "getErrorMessage", impl, QStringList(), QStringList(), xmlserializerError);
+    //    if (!querySuccess)
+    //    {
+    //        emit queryFailed(xmlserializer);
+    //        return;
+    //    }
 
-//    if (this->getErrorMessage(xmlserialError) != "")
-//    {
-//        emit queryFailed(this->getErrorMessage(xmlserialError));
-//        return;
-//    }
+    //    if (this->getErrorMessage(xmlserialError) != "")
+    //    {
+    //        emit queryFailed(this->getErrorMessage(xmlserialError));
+    //        return;
+    //    }
 
-    qDebug()<<"messsssssssssssssssssssssssssssssssssssssage"<<xmlserializer;
-    qDebug()<<"messsssssssssssssssssssssssssssssssssssssage";
     return xmlserializer;
 }
 
@@ -427,51 +375,30 @@ QByteArray QtShanoirMain::downloadDataset(QString datasetId)
     querySuccess = QtShanoirWebService::Query (ws, "setUsername", impl, QStringList() << "username", QStringList() << GlobalData::settings.getLogin(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"setUsername";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query (ws, "setPassword", impl, QStringList() << "dummy", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserializer);
         qDebug()<<"setUsername";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query (ws, "setDatasetId", impl, QStringList() << "datasetId", QStringList() << datasetId, xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserializer);
         qDebug()<<"setDatasetId";
-        //return;
     }
 
     QByteArray bin;
     querySuccess = QtShanoirWebService::BinaryQuery (ws, "download", impl, QStringList(), QStringList(), bin);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserializer);
         qDebug()<<"download";
-        //return;
     }
 
-//    QString xmlserializerError;
-//    querySuccess = QtShanoirWebService::Query (ws, "getErrorMessage", impl, QStringList(), QStringList(), xmlserializerError);
-//    if (!querySuccess)
-//    {
-//        emit queryFailed(xmlserializer);
-//        return;
-//    }
-
     return bin;
-
 }
-
-
-
-
 
 void QtShanoirMain::getProcessingListId()
 {
@@ -480,7 +407,7 @@ void QtShanoirMain::getProcessingListId()
 
 QString QtShanoirMain::getErrorMessage(QString xmlserialize)
 {
-	return xmlserialize;
+    return xmlserialize;
 }
 
 void QtShanoirMain::queryFinished()
@@ -510,30 +437,20 @@ QString QtShanoirMain::acquireProcessingList()
 
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "password", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
 
-    qDebug()<< "message"<<xmlserializer;
-
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
-
 
     querySuccess = QtShanoirWebService::Query ( ws, "getDatasetProcessingList", impl, QStringList(), QStringList(), xmlserializer);
 
-
     if (!querySuccess)
     {
-       // emit queryFailed(xmlserial);
         qDebug()<<"error find";
-        //return;
     }
 
     QFile file("processingList.xml");
@@ -562,31 +479,20 @@ QString QtShanoirMain::acquireDatasetTypeList()
     qDebug()<<xmlserializer;
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "password", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
 
-    qDebug()<< "message"<<xmlserializer;
-
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
-
 
     querySuccess = QtShanoirWebService::Query ( ws, "getDatasetTypeList", impl, QStringList(), QStringList(), xmlserializer);
 
-    qDebug()<<xmlserializer;
     if (!querySuccess)
     {
         qDebug()<<"errror"<<xmlserializer;
-       // emit queryFailed(xmlserial);
-        qDebug()<<"error find";
-        //return;
     }
 
     QFile file("datasetTypeList.xml");
@@ -612,29 +518,21 @@ QString QtShanoirMain::acquireMrdatasetNatureList()
 
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "password", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
 
-
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
-
 
     querySuccess = QtShanoirWebService::Query ( ws, "getMrdatasetNatureList", impl, QStringList(), QStringList(), xmlserializer);
 
     if (!querySuccess)
     {
         qDebug()<<"errror"<<xmlserializer;
-       // emit queryFailed(xmlserial);
         qDebug()<<"error find";
-        //return;
     }
 
     QFile file("mrdatasetNatureList.xml");
@@ -659,29 +557,21 @@ QString QtShanoirMain::acquireMrSpectroscopydatasetNatureList()
 
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "password", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
 
-
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
-
 
     querySuccess = QtShanoirWebService::Query ( ws, "getMrSpectroscopydatasetNatureList", impl, QStringList(), QStringList(), xmlserializer);
 
     if (!querySuccess)
     {
         qDebug()<<"errror"<<xmlserializer;
-       // emit queryFailed(xmlserial);
         qDebug()<<"error find";
-        //return;
     }
 
     QFile file("mrSpectroscopydatasetNatureList.xml");
@@ -706,29 +596,22 @@ QString QtShanoirMain::acquireMrDatasetQualityProcedureTypeList()
 
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "password", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
 
 
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
-
 
     querySuccess = QtShanoirWebService::Query ( ws, "getMrDatasetQualityProcedureTypeList", impl, QStringList(), QStringList(), xmlserializer);
 
     if (!querySuccess)
     {
         qDebug()<<"errror"<<xmlserializer;
-       // emit queryFailed(xmlserial);
         qDebug()<<"error find";
-        //return;
     }
 
     QFile file("mrDatasetQualityProcedureTypeList.xml");
@@ -753,29 +636,22 @@ QString QtShanoirMain::acquireCalibrationDatasetTypeList()
 
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "password", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
 
 
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
-
 
     querySuccess = QtShanoirWebService::Query ( ws, "getCalibrationDatasetTypeList", impl, QStringList(), QStringList(), xmlserializer);
 
     if (!querySuccess)
     {
         qDebug()<<"errror"<<xmlserializer;
-       // emit queryFailed(xmlserial);
         qDebug()<<"error find";
-        //return;
     }
 
     QFile file("calibrationDatasetTypeList.xml");
@@ -800,29 +676,21 @@ QString QtShanoirMain::acquireProcessedDatasetTypeList()
 
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "password", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
 
-
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
-
 
     querySuccess = QtShanoirWebService::Query ( ws, "getProcessedDatasetTypeList", impl, QStringList(), QStringList(), xmlserializer);
 
     if (!querySuccess)
     {
         qDebug()<<"errror"<<xmlserializer;
-       // emit queryFailed(xmlserial);
         qDebug()<<"error find";
-        //return;
     }
 
     QFile file("processedDatasetTypeList.xml");
@@ -847,29 +715,21 @@ QString QtShanoirMain::acquireTemplateDatasetNatureList()
 
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "password", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
 
-
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
-
 
     querySuccess = QtShanoirWebService::Query ( ws, "getTemplateDatasetNatureList", impl, QStringList(), QStringList(), xmlserializer);
 
     if (!querySuccess)
     {
         qDebug()<<"errror"<<xmlserializer;
-       // emit queryFailed(xmlserial);
         qDebug()<<"error find";
-        //return;
     }
 
     QFile file("templateDatasetNatureList.xml");
@@ -894,29 +754,21 @@ QString QtShanoirMain::acquireParameterQuantificationNatureList()
 
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "password", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
 
-
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
-
 
     querySuccess = QtShanoirWebService::Query ( ws, "getParameterQuantificationNatureList", impl, QStringList(), QStringList(), xmlserializer);
 
     if (!querySuccess)
     {
         qDebug()<<"errror"<<xmlserializer;
-       // emit queryFailed(xmlserial);
         qDebug()<<"error find";
-        //return;
     }
 
     QFile file("parameterQuantificationNatureList.xml");
@@ -941,29 +793,21 @@ QString QtShanoirMain::acquireSpectNatureList()
 
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<" error setUsername";
-        //return;
     }
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "password", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
 
-
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserial);
         qDebug()<<"error setPassword";
-        //return;
     }
-
 
     querySuccess = QtShanoirWebService::Query ( ws, "getSpectNatureList", impl, QStringList(), QStringList(), xmlserializer);
 
     if (!querySuccess)
     {
         qDebug()<<"errror"<<xmlserializer;
-       // emit queryFailed(xmlserial);
         qDebug()<<"error find";
-        //return;
     }
 
     QFile file("spectNatureList.xml");
@@ -987,17 +831,13 @@ void QtShanoirMain::uploadProcessedDatasetFile(QtShanoirUploadProcessedDatasetAt
     bool querySuccess = QtShanoirWebService::Query ( ws, "setUsername", impl, QStringList() << "username", QStringList() << GlobalData::settings.getLogin(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserializer);
         qDebug()<<"error username";
-        //return;
     }
 
     querySuccess = QtShanoirWebService::Query ( ws, "setPassword", impl, QStringList() << "password", QStringList() << GlobalData::settings.getPassword(), xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserializer);
         qDebug()<<"error password";
-        //return;
     }
 
     QFile file (processedDatasetFile.getFilename());
@@ -1007,10 +847,10 @@ void QtShanoirMain::uploadProcessedDatasetFile(QtShanoirUploadProcessedDatasetAt
 
     QtSoapStruct *str_processedDatasetFile=new QtSoapStruct(QtSoapQName("ProcessedDatasetAttributes"));
 
-   str_processedDatasetFile->insert( new QtSoapSimpleType(QtSoapQName("studyId"),processedDatasetFile.getStudyId()));
+    str_processedDatasetFile->insert( new QtSoapSimpleType(QtSoapQName("studyId"),processedDatasetFile.getStudyId()));
 
-   for(int i=0; i<processedDatasetFile.getInputDatasetIdList().size();i++)
-    str_processedDatasetFile->insert(new QtSoapSimpleType(QtSoapQName("inputDatasetIdList"),processedDatasetFile.getInputDatasetIdList()[i]));
+    for(int i=0; i<processedDatasetFile.getInputDatasetIdList().size();i++)
+        str_processedDatasetFile->insert(new QtSoapSimpleType(QtSoapQName("inputDatasetIdList"),processedDatasetFile.getInputDatasetIdList()[i]));
 
     str_processedDatasetFile->insert( new QtSoapSimpleType(QtSoapQName("refDatasetProcessingId"),processedDatasetFile.getRefDatasetProcessingId()));
     str_processedDatasetFile->insert( new QtSoapSimpleType(QtSoapQName("datasetClass"),processedDatasetFile.getDatasetClass()));
@@ -1027,8 +867,6 @@ void QtShanoirMain::uploadProcessedDatasetFile(QtShanoirUploadProcessedDatasetAt
     querySuccess = QtShanoirWebService::QueryStruct( ws, "importProcessedDatasetAttributes", impl,str_processedDatasetFile, xmlserializer);
     if (!querySuccess)
     {
-        //emit queryFailed(xmlserializer);
         qDebug()<<"error import";
-        //return;
     }
 }

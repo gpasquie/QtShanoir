@@ -17,25 +17,25 @@ QString QtShanoirDataset::getName()
 
 QString QtShanoirDataset::getField(const QString & field)
 {
-     if(field=="name")
-     {return getName();}
-     if(field=="filter")
-     {return getFilter();}
+    if(field=="name")
+        return getName();
+    if(field=="filter")
+        return getFilter();
     if(field=="echoNumber")
-      {return QString::number(getEchoNumber());}
-
-     return "";
-
+        return QString::number(getEchoNumber());
+    else return "";
 }
 
 int QtShanoirDataset::getEchoNumber()
 {
     return echoNumber;
 }
+
 void QtShanoirDataset::setEchoNumber(int number)
 {
     this->echoNumber=number;
 }
+
 void QtShanoirDataset::setName(QString name)
 {
     this->name = name;
@@ -116,10 +116,8 @@ void QtShanoirDataset::insertProcess(QtShanoirProcess process)
 
 void QtShanoirDataset::displayProcessList()
 {
-    qDebug()<<"I'm in displayProcessList";
     for (int i=0; i<processList.size();i++)
       qDebug()<<"Process:"<<processList.value(i).getName();
-    qDebug()<<"Fin displayProcessList";
 }
 
 QMap<int,QString> QtShanoirDataset::getProcessList()
