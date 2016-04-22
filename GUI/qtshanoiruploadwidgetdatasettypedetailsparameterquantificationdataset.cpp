@@ -4,6 +4,7 @@
 #include <QCheckBox>
 #include <QMessageBox>
 
+#include "dao.h"
 
 QtShanoirUploadWidgetDatasetTypeDetailsParameterQuantificationDataset::QtShanoirUploadWidgetDatasetTypeDetailsParameterQuantificationDataset(QList<QtShanoirUploadProcessedDatasetAttributesTemp> files, QWidget *parent) : QWidget(parent), ui(new Ui::QtShanoirUploadWidgetDatasetTypeDetailsParameterQuantificationDataset)
 {
@@ -16,25 +17,13 @@ QtShanoirUploadWidgetDatasetTypeDetailsParameterQuantificationDataset::QtShanoir
 
 void QtShanoirUploadWidgetDatasetTypeDetailsParameterQuantificationDataset::fillComboBox()
 {
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)();
-    CallFunction cf = (CallFunction)library.resolve("getParameterQuantificationNatureList");
-    if (cf)
+    parameterQuantificationDatasetNatureList = getParameterQuantificationNatureList();
+    if (!parameterQuantificationDatasetNatureList.isEmpty())
     {
-        parameterQuantificationDatasetNatureList = cf();
-        if (!parameterQuantificationDatasetNatureList.isEmpty())
-        {
-            ui->parameterQuantificationDatasetNatureComboBox->insertItem(0,"");
-            for (int i=0; i<parameterQuantificationDatasetNatureList.size();i++)
-                ui->parameterQuantificationDatasetNatureComboBox->insertItem(i+1,parameterQuantificationDatasetNatureList.values().at(i));
-        }
+        ui->parameterQuantificationDatasetNatureComboBox->insertItem(0,"");
+        for (int i=0; i<parameterQuantificationDatasetNatureList.size();i++)
+            ui->parameterQuantificationDatasetNatureComboBox->insertItem(i+1,parameterQuantificationDatasetNatureList.values().at(i));
     }
-    else
-        qDebug() << "could not call function";
 }
 
 void QtShanoirUploadWidgetDatasetTypeDetailsParameterQuantificationDataset::buildTable()

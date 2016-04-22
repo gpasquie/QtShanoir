@@ -16,6 +16,7 @@
 #else
 #  define DAO_EXPORT 
 #endif
+
 enum MatchingType
 {
     contains,
@@ -94,6 +95,7 @@ typedef DAO_EXPORT struct ProcessedDatasetFilesAndAttributes
     int refTemplateDatasetNatureId;
 }ProcessedDatasetFilesAndAttributes;
 
+
     DAO_EXPORT void configureSettings(QString);
     DAO_EXPORT struct Settings* loadSettings();
     DAO_EXPORT void updateSettings(struct Settings*, QString);
@@ -133,10 +135,6 @@ typedef DAO_EXPORT struct ProcessedDatasetFilesAndAttributes
     DAO_EXPORT void uploadProcessedDatasetFiles(QList<struct ProcessedDatasetFilesAndAttributes*>);
 
 }
-
-QtShanoirMain* servicePopulate ;
-ParseTree* parse;
-
 
 #endif 
 

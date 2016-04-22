@@ -131,7 +131,7 @@
   <customwidget>
    <class>QtShanoirTreeWidget</class>
    <extends>QWidget</extends>
-   <header location="global">QtShanoirTreeWidget.h</header>
+   <header location="global">qtshanoirtreewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

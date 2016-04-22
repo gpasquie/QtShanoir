@@ -2,33 +2,23 @@
 
 #include <QMessageBox>
 
+#include "dao.h"
+
+
 QtShanoirSettingsWidget::QtShanoirSettingsWidget(QWidget *parent): QWidget (parent)
 {
     setupUi(this);
     portSpinBox->setMaximum(9999);
 
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef struct Settings* (* CallFunction)();
-    CallFunction cf = (CallFunction)library.resolve("loadSettings");
-    if (cf)
-    {
-         struct Settings* settings = cf();
-         loginLineEdit->setText(settings->login);
-         passwordLineEdit->setText(settings->password);
-         passwordLineEdit->setEchoMode(QLineEdit::Password);
-         passwordLineEdit->setInputMethodHints(Qt::ImhHiddenText| Qt::ImhNoPredictiveText|Qt::ImhNoAutoUppercase);
-         hostLineEdit->setText(settings->host);
-         portSpinBox->setValue(settings->port);
-         portSpinBox->setMaximum(9999);
-         initConnections();
-    }
-    else
-        qDebug() << "could not call function";
-
+    Settings* settings = loadSettings();
+    loginLineEdit->setText(settings->login);
+    passwordLineEdit->setText(settings->password);
+    passwordLineEdit->setEchoMode(QLineEdit::Password);
+    passwordLineEdit->setInputMethodHints(Qt::ImhHiddenText| Qt::ImhNoPredictiveText|Qt::ImhNoAutoUppercase);
+    hostLineEdit->setText(settings->host);
+    portSpinBox->setValue(settings->port);
+    portSpinBox->setMaximum(9999);
+    initConnections();
 
 }
 
@@ -75,45 +65,21 @@ void QtShanoirSettingsWidget::connect()
     QDir iniDir (QDir::homePath() + QDir::separator() + ".shanoir");
     QString iniFile = iniDir.absolutePath() + QDir::separator() + "properties";
 
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef void (* CallFunction)(struct Settings*,QString);
-    CallFunction cf = (CallFunction)library.resolve("updateSettings");
-    if (cf)
-    {
-          cf(settings,iniFile);
-    }
-    else
-        qDebug() << "could not call function";
+    updateSettings(settings,iniFile);
 
     connectServer();
 }
 
 void QtShanoirSettingsWidget::connectServer()
 {
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef QString (* CallFunction)();
-    CallFunction cf = (CallFunction)library.resolve("authentification");
-    if (cf)
+    QString error = authentification();
+    if (error != "")
     {
-          QString error = cf();
-          if (error != "")
-          {
-              QMessageBox::critical(this, "Error message", error, QMessageBox::Ok, 0);
-          }
-          else
-          {
-              QMessageBox::information(this, "Information message", "You are successfully connected.", QMessageBox::Ok, 0);
-              emit callServer();
-          }
+        QMessageBox::critical(this, "Error message", error, QMessageBox::Ok, 0);
     }
     else
-        qDebug() << "could not call function";
+    {
+        QMessageBox::information(this, "Information message", "You are successfully connected.", QMessageBox::Ok, 0);
+        emit callServer();
+    }
 }

@@ -1,6 +1,7 @@
 #include "qtshanoirtreewidget.h"
 #include "qtshanoirmain.h"
-#include "demo.h"
+
+#include "dao.h"
 
 QtShanoirTreeWidget::QtShanoirTreeWidget(QWidget *parent) : QWidget(parent),ui (new Ui::QtShanoirTree)
 {
@@ -99,195 +100,139 @@ void QtShanoirTreeWidget::build(QString studyFilter,QString subjectFilter,QDate 
 
 void QtShanoirTreeWidget::developTree(QString studyFilter, QTreeWidgetItem* item)
 {
-    QLibrary library("DAO.dll");
-    if (!library.load())
-        qDebug() << library.errorString();
-    else
-        qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)(QString);
-    CallFunction cf = (CallFunction)library.resolve("findStudyList");
-    if (cf)
+    QMap<int,QString> list = findStudyList(studyFilter);
+    if (!list.isEmpty())
     {
-        QMap<int,QString> list = cf(studyFilter);
-        if (!list.isEmpty())
+        for (int i=0; i<list.size();i++)
         {
-            for (int i=0; i<list.size();i++)
-            {
-                qDebug()<<list.values().at(i);
-                QTreeWidgetItem * node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 2);
-                node->setData(0, QTreeWidgetItem::UserType + 2, list.keys().at(i));
-                node->setText(0, list.values().at(i));
-                node->setText(1, "STUDY");
-                node->setIcon(0, QIcon(":Images/study.64x64.png"));
-                item->addChild(node);
-            }
-            item->setExpanded(true);
+            qDebug()<<list.values().at(i);
+            QTreeWidgetItem * node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 2);
+            node->setData(0, QTreeWidgetItem::UserType + 2, list.keys().at(i));
+            node->setText(0, list.values().at(i));
+            node->setText(1, "STUDY");
+            node->setIcon(0, QIcon(":Images/study.64x64.png"));
+            item->addChild(node);
         }
-        else if (studyFilter != "")
-        {
-            emit queryFailed("Study don't exist");
-            qDebug() << "Study don't exist"; // affichage
-        }
+        item->setExpanded(true);
     }
-    else
-        qDebug() << "could not call function";
-
+    else if (studyFilter != "")
+    {
+        emit queryFailed("Study don't exist");
+        qDebug() << "Study don't exist"; // affichage
+    }
 }
 
 void QtShanoirTreeWidget::developStudy(QString study,QString subjectFilter,QTreeWidgetItem* item)
 {
-    qDebug()<<"adresse"<<&item;
-    QLibrary library("DAO.dll");
-    if (!library.load())
-        qDebug() << library.errorString();
-    else
-        qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)(QString,QString);
-    CallFunction cf = (CallFunction)library.resolve("findSubjectList");
-    if (cf)
+    QMap<int,QString> list = findSubjectList(study,subjectFilter);
+    if (!list.isEmpty())
     {
-        QMap<int,QString> list = cf(study,subjectFilter);
-        if (!list.isEmpty())
+        for (int i=0; i<list.size();i++)
         {
-            for (int i=0; i<list.size();i++)
-            {
-                qDebug()<<list.values().at(i);
-                QTreeWidgetItem* node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 3);
-                node->setData(0, QTreeWidgetItem::UserType + 3, list.keys().at(i));
-                node->setText(0,list.values().at(i));
-                node->setIcon(0, QIcon(":Images/subject.64x64.png"));
-                node->setText(1, "SUBJECT");
-                node->setCheckState(0, Qt::Unchecked);
-                item->addChild(node);
-                qDebug() << "Children count"<<item->childCount(); // affichage
+            qDebug()<<list.values().at(i);
+            QTreeWidgetItem* node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 3);
+            node->setData(0, QTreeWidgetItem::UserType + 3, list.keys().at(i));
+            node->setText(0,list.values().at(i));
+            node->setIcon(0, QIcon(":Images/subject.64x64.png"));
+            node->setText(1, "SUBJECT");
+            node->setCheckState(0, Qt::Unchecked);
+            item->addChild(node);
+            qDebug() << "Children count"<<item->childCount(); // affichage
 
-            }
-            item->setExpanded(true);
-            //emit getStudyDetails(study);
         }
+        item->setExpanded(true);
+        //emit getStudyDetails(study);
     }
-    else
-        qDebug() << "could not call function";
 }
 
 void QtShanoirTreeWidget::developSubject(QTreeWidgetItem* item)
 {
     QTreeWidgetItem* parent = item->parent();
-    QLibrary library("DAO.dll");
-    if (!library.load())
-        qDebug() << library.errorString();
-    else
-        qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)(int,int);
-    CallFunction cf = (CallFunction)library.resolve("findExamList");
-    if (cf)
+
+    QMap<int,QString> list = findExamList(parent->data(0, QTreeWidgetItem::UserType + 2).toInt(), item->data(0, QTreeWidgetItem::UserType + 3).toInt());
+    if (!list.isEmpty())
     {
-        QMap<int,QString> list = cf(parent->data(0, QTreeWidgetItem::UserType + 2).toInt(), item->data(0, QTreeWidgetItem::UserType + 3).toInt());
-        if (!list.isEmpty())
+        foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
         {
-            foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
-            {
-                qDebug() <<"item"<< item->text(0);
-                //str is what you want
-            }
-            // QTreeWidgetItem* sub = ui->treeWidget->selectedItems().front();
-            for (int i=0; i<list.size();i++)
-            {
-                qDebug()<<list.values().at(i);
-                QTreeWidgetItem* node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 4);
-                node->setData(0, QTreeWidgetItem::UserType + 4, list.keys().at(i));
-                node->setText(0,list.values().at(i));
-                node->setIcon(0, QIcon(":Images/examination.64x64.png"));
-                node->setText(1, "EXAM");
-                node->setCheckState(0, Qt::Unchecked);
-                item->addChild(node);
-            }
-            item->setExpanded(true);
+            qDebug() <<"item"<< item->text(0);
+            //str is what you want
         }
+        // QTreeWidgetItem* sub = ui->treeWidget->selectedItems().front();
+        for (int i=0; i<list.size();i++)
+        {
+            qDebug()<<list.values().at(i);
+            QTreeWidgetItem* node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 4);
+            node->setData(0, QTreeWidgetItem::UserType + 4, list.keys().at(i));
+            node->setText(0,list.values().at(i));
+            node->setIcon(0, QIcon(":Images/examination.64x64.png"));
+            node->setText(1, "EXAM");
+            node->setCheckState(0, Qt::Unchecked);
+            item->addChild(node);
+        }
+        item->setExpanded(true);
     }
-    else
-        qDebug() << "could not call function";
+
+
 }
 
 void QtShanoirTreeWidget::developExam(QTreeWidgetItem* item)
 {
     QTreeWidgetItem* parentSubject = item->parent();
     QTreeWidgetItem* parentStudy = parentSubject->parent();
-    QLibrary library("DAO.dll");
-    if (!library.load())
-        qDebug() << library.errorString();
-    else
-        qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)(int,int,int);
-    CallFunction cf = (CallFunction)library.resolve("findDatasetList");
-    if (cf)
+
+    QMap<int,QString> list = findDatasetList(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(),parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),item->data(0, QTreeWidgetItem::UserType + 4).toInt());
+    if (!list.isEmpty())
     {
-        QMap<int,QString> list = cf(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(),parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),item->data(0, QTreeWidgetItem::UserType + 4).toInt());
-        if (!list.isEmpty())
+        foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
         {
-            foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
-            {
-                qDebug() <<"item"<< item->text(0);
-                //str is what you want
-            }
-            //QTreeWidgetItem* sub = ui->treeWidget->selectedItems().front(); // la faute est ici
-            for (int i=0; i<list.size();i++)
-            {
-                qDebug()<<list.values().at(i);
-                QTreeWidgetItem* node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 5);
-                node->setData(0, QTreeWidgetItem::UserType + 5, list.keys().at(i));
-                node->setText(0,list.values().at(i));
-                node->setIcon(0, QIcon(":Images/dataset.64x64.png"));
-                node->setText(1, "DATASET");
-                node->setCheckState(0, Qt::Unchecked);
-                item->addChild(node);
-            }
-            item->setExpanded(true);
+            qDebug() <<"item"<< item->text(0);
+            //str is what you want
         }
+        //QTreeWidgetItem* sub = ui->treeWidget->selectedItems().front(); // la faute est ici
+        for (int i=0; i<list.size();i++)
+        {
+            qDebug()<<list.values().at(i);
+            QTreeWidgetItem* node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 5);
+            node->setData(0, QTreeWidgetItem::UserType + 5, list.keys().at(i));
+            node->setText(0,list.values().at(i));
+            node->setIcon(0, QIcon(":Images/dataset.64x64.png"));
+            node->setText(1, "DATASET");
+            node->setCheckState(0, Qt::Unchecked);
+            item->addChild(node);
+        }
+        item->setExpanded(true);
     }
-    else
-        qDebug() << "could not call function";
+
 }
 
 void QtShanoirTreeWidget::developDataset(QTreeWidgetItem* item)
 {
-    qDebug()<<"I'm in DevelopDataset";
     QTreeWidgetItem* parentExam = item->parent();
     QTreeWidgetItem* parentSubject = parentExam->parent();
     QTreeWidgetItem* parentStudy = parentSubject->parent();
 
-    QLibrary library("DAO.dll");
-    if (!library.load())
-        qDebug() << library.errorString();
-    else
-        qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)(int,int,int,int);
-    CallFunction cf = (CallFunction)library.resolve("findProcessList");
-    if (cf)
+
+    QMap<int,QString> list = findProcessList(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(), parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),parentExam->data(0, QTreeWidgetItem::UserType + 4).toInt(),item->data(0, QTreeWidgetItem::UserType + 5).toInt());
+    if (!list.isEmpty())
     {
-        QMap<int,QString> list = cf(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(), parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),parentExam->data(0, QTreeWidgetItem::UserType + 4).toInt(),item->data(0, QTreeWidgetItem::UserType + 5).toInt());
-        if (!list.isEmpty())
+        foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
         {
-            foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
-            {
-                qDebug() <<"item"<< item->text(0);
-                //str is what you want
-            }
-            for (int i=0; i<list.size();i++)
-            {
-                qDebug()<<list.values().at(i);
-                QTreeWidgetItem* node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 6);
-                node->setData(0, QTreeWidgetItem::UserType + 6, list.keys().at(i));
-                node->setText(0,list.values().at(i));
-                node->setIcon(0, QIcon(":Images/process.64x64.png"));
-                node->setText(1, "PROCESS");
-                item->addChild(node);
-            }
-            item->setExpanded(true);
+            qDebug() <<"item"<< item->text(0);
+            //str is what you want
         }
+        for (int i=0; i<list.size();i++)
+        {
+            qDebug()<<list.values().at(i);
+            QTreeWidgetItem* node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 6);
+            node->setData(0, QTreeWidgetItem::UserType + 6, list.keys().at(i));
+            node->setText(0,list.values().at(i));
+            node->setIcon(0, QIcon(":Images/process.64x64.png"));
+            node->setText(1, "PROCESS");
+            item->addChild(node);
+        }
+        item->setExpanded(true);
     }
-    else
-        qDebug() << "could not call function";
+
 }
 
 void QtShanoirTreeWidget::developProcess(QTreeWidgetItem* item)
@@ -297,39 +242,29 @@ void QtShanoirTreeWidget::developProcess(QTreeWidgetItem* item)
     QTreeWidgetItem* parentSubject = parentExam->parent();
     QTreeWidgetItem* parentStudy = parentSubject->parent();
 
-    QLibrary library("DAO.dll");
-    if (!library.load())
-        qDebug() << library.errorString();
-    else
-        qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)(int,int,int,int,int);
-    CallFunction cf = (CallFunction)library.resolve("findProcessedDatasetList");
-    if (cf)
+
+    QMap<int,QString> list = findProcessedDatasetList(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(), parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),parentExam->data(0, QTreeWidgetItem::UserType + 4).toInt(),parentDataset->data(0, QTreeWidgetItem::UserType + 5).toInt(),item->data(0, QTreeWidgetItem::UserType + 6).toInt());
+    if (!list.isEmpty())
     {
-        QMap<int,QString> list = cf(parentStudy->data(0, QTreeWidgetItem::UserType + 2).toInt(), parentSubject->data(0, QTreeWidgetItem::UserType + 3).toInt(),parentExam->data(0, QTreeWidgetItem::UserType + 4).toInt(),parentDataset->data(0, QTreeWidgetItem::UserType + 5).toInt(),item->data(0, QTreeWidgetItem::UserType + 6).toInt());
-        if (!list.isEmpty())
+        foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
         {
-            foreach(QTreeWidgetItem *item, ui->treeWidget->selectedItems())
-            {
-                qDebug() <<"item"<< item->text(0);
-                //str is what you want
-            }
-            for (int i=0; i<list.size();i++)
-            {
-                qDebug()<<list.values().at(i);
-                QTreeWidgetItem* node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 7);
-                node->setData(0, QTreeWidgetItem::UserType + 7, list.keys().at(i));
-                node->setText(0,list.values().at(i));
-                node->setIcon(0, QIcon(":Images/processedDataset.64x64.png"));
-                node->setText(1, "PROCESSED DATASET");
-                node->setCheckState(0, Qt::Unchecked);
-                item->addChild(node);
-            }
-            item->setExpanded(true);
+            qDebug() <<"item"<< item->text(0);
+            //str is what you want
         }
+        for (int i=0; i<list.size();i++)
+        {
+            qDebug()<<list.values().at(i);
+            QTreeWidgetItem* node = new QTreeWidgetItem(QTreeWidgetItem::UserType + 7);
+            node->setData(0, QTreeWidgetItem::UserType + 7, list.keys().at(i));
+            node->setText(0,list.values().at(i));
+            node->setIcon(0, QIcon(":Images/processedDataset.64x64.png"));
+            node->setText(1, "PROCESSED DATASET");
+            node->setCheckState(0, Qt::Unchecked);
+            item->addChild(node);
+        }
+        item->setExpanded(true);
     }
-    else
-        qDebug() << "could not call function";
+
 }
 
 void QtShanoirTreeWidget::updateCheckBoxes(QTreeWidgetItem * item,int column)

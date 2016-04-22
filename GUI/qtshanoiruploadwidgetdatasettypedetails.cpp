@@ -2,6 +2,8 @@
 
 #include <QMessageBox>
 
+#include "dao.h"
+
 QtShanoirUploadWidgetDatasetTypeDetails::QtShanoirUploadWidgetDatasetTypeDetails(QWidget *parent):QWizardPage(parent),ui (new Ui::QtShanoirUploadWidgetDatasetTypeDetails)
 {
     ui->setupUi(this);
@@ -463,7 +465,7 @@ bool QtShanoirUploadWidgetDatasetTypeDetails::validatePage()
     {
         submitFilesToUpload();
 
-        QList<struct ProcessedDatasetFilesAndAttributes*> str_filesToUpload;
+        QList<ProcessedDatasetFilesAndAttributes*> str_filesToUpload;
         for(int i=0; i<filesToUpload.size();i++)
         {
             struct ProcessedDatasetFilesAndAttributes* str_processedDataset = new struct ProcessedDatasetFilesAndAttributes;
@@ -485,21 +487,7 @@ bool QtShanoirUploadWidgetDatasetTypeDetails::validatePage()
             str_filesToUpload.append(str_processedDataset);
         }
 
-
-        QLibrary library("DAO.dll");
-        if (!library.load())
-                qDebug() << library.errorString();
-        else
-                qDebug() << "library loaded";
-        typedef void (* CallFunction)(QList<struct ProcessedDatasetFilesAndAttributes*>);
-        CallFunction cf = (CallFunction)library.resolve("uploadProcessedDatasetFiles");
-        if (cf)
-        {
-              cf(str_filesToUpload);
-        }
-        else
-            qDebug() << "could not call function";
-
+        uploadProcessedDatasetFiles(str_filesToUpload);
 
     }
     return validation;

@@ -5,6 +5,8 @@
 #include <QtGui>
 #include <QStyledItemDelegate>
 
+#include "dao.h"
+
 class ItemDelegate : public QStyledItemDelegate
 {
 public:
@@ -76,23 +78,12 @@ QtShanoirUploadWidgetCoressFilesProcessDataset::QtShanoirUploadWidgetCoressFiles
     //Explain step
     ui->detailsLabel->setText(tr("<b> Step 5 : </b> Match your files with the correct process and Datasets."));
 
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef QStringList (* CallFunction)();
-    CallFunction cf = (CallFunction)library.resolve("getDatasetTypeList");
-    if (cf)
+    QStringList list = getDatasetTypeList();
+    if (!list.isEmpty())
     {
-        QStringList list = cf();
-        if (!list.isEmpty())
-        {
-            datasetTypeList=list;
-        }
+        datasetTypeList=list;
     }
-    else
-        qDebug() << "could not call function";
+
     datasetTypeSelectedList.clear();
 }
 

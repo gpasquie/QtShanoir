@@ -35,8 +35,6 @@ void QtShanoirUploadWidget::initConnections()
     QObject::connect(dragFiles,SIGNAL(callSelectStudy(QString)),selectInputs, SLOT (selectStudy(QString)));
     QObject::connect(dragFiles,SIGNAL(callUpdateFilesList(QStringList)),selectCoresFilesProcessDataset, SLOT (updateFilesList(QStringList)));
 
-
-
     QObject::connect(selectInputs,SIGNAL(callUpdateSelectedInputsDataset(QMap<int,QString>)),selectCoresFilesInputs, SLOT (updateSelectedInputsDataset(QMap<int,QString>)));
 
     QObject::connect(selectCoresFilesInputs,SIGNAL(callUpdateFilesToUpload(QList<QtShanoirUploadProcessedDatasetAttributesTemp>)),selectCoresFilesProcessDataset, SLOT (updateFilesToUpload(QList<QtShanoirUploadProcessedDatasetAttributesTemp>)));
@@ -45,8 +43,6 @@ void QtShanoirUploadWidget::initConnections()
 
     QObject::connect(selectCoresFilesProcessDataset,SIGNAL(callUpdateDatasetTypeSelectedList(QStringList)),datasetTypeDetails, SLOT (updateDatasetTypeSelectedList(QStringList)));
     QObject::connect(selectCoresFilesProcessDataset,SIGNAL(callUpdateFilesToUpload(QList<QtShanoirUploadProcessedDatasetAttributesTemp>)),datasetTypeDetails, SLOT (updateFilesToUpload(QList<QtShanoirUploadProcessedDatasetAttributesTemp>)));
-
-
 }
 
 void QtShanoirUploadWidget::buildUpload()

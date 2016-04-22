@@ -1,5 +1,6 @@
 #include "qtshanoiruploadwidgetdragfiles.h"
 #include <QMessageBox>
+#include "dao.h"
 
 QtShanoirUploadWidgetDragFiles::QtShanoirUploadWidgetDragFiles(QWidget *parent):QWizardPage(parent),ui (new Ui::QtShanoirUploadWidgetDragFiles)
 {
@@ -184,24 +185,11 @@ bool QtShanoirUploadWidgetDragFiles::validatePage()
 
 void QtShanoirUploadWidgetDragFiles::fillComboBox()
 {
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)(QString);
-    CallFunction cf = (CallFunction)library.resolve("findStudyList");
-    if (cf)
+    studyList = findStudyList("");
+    if (!studyList.isEmpty())
     {
-        studyList = cf("");
-        if (!studyList.isEmpty())
-        {
-            ui->selectStudyComboBox->insertItem(0,"");
-            for (int i=0; i<studyList.size();i++)
-                ui->selectStudyComboBox->insertItem(i+1,studyList.values().at(i));
-        }
-
+        ui->selectStudyComboBox->insertItem(0,"");
+        for (int i=0; i<studyList.size();i++)
+            ui->selectStudyComboBox->insertItem(i+1,studyList.values().at(i));
     }
-    else
-        qDebug() << "could not call function";
 }

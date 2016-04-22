@@ -2,9 +2,10 @@
 #include "ui_qtshanoiruploadwidgetdatasettypedetailsmrdataset.h"
 
 #include <QDebug>
-#include <QLibrary>
 #include <QMessageBox>
 #include <QCheckBox>
+
+#include "dao.h"
 
 //class MyHeader : public QHeaderView
 //{
@@ -56,44 +57,25 @@ QtShanoirUploadWidgetDatasetTypeDetailsMrDataset::QtShanoirUploadWidgetDatasetTy
 }
 
 void QtShanoirUploadWidgetDatasetTypeDetailsMrDataset::fillComboBoxes()
-{
-    // Fill MrDataset Nature Combo box
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)();
-    CallFunction cf = (CallFunction)library.resolve("getMrdatasetNatureList");
-    if (cf)
+{  
+    mrDatasetNatureList = getMrdatasetNatureList();
+    if (!mrDatasetNatureList.isEmpty())
     {
-        mrDatasetNatureList = cf();
-        if (!mrDatasetNatureList.isEmpty())
-        {
-            ui->mrDatasetNatureComboBox->insertItem(0,"");
-            for (int i=0; i<mrDatasetNatureList.size();i++)
-                ui->mrDatasetNatureComboBox->insertItem(i+1,mrDatasetNatureList.values().at(i));
-        }
+        ui->mrDatasetNatureComboBox->insertItem(0,"");
+        for (int i=0; i<mrDatasetNatureList.size();i++)
+            ui->mrDatasetNatureComboBox->insertItem(i+1,mrDatasetNatureList.values().at(i));
     }
-    else
-        qDebug() << "could not call function";
 
     // Fil MrDataset Quality Procedure Type
-    cf = (CallFunction)library.resolve("getMrDatasetQualityProcedureTypeList");
-        if (cf)
-        {
-            mrDatasetQualityProcedureTypeList = cf();
-            if (!mrDatasetQualityProcedureTypeList.isEmpty())
-            {
-                ui->mrDatasetQualityProcedureTypeComboBox->insertItem(0,"");
-                for (int i=0; i<mrDatasetQualityProcedureTypeList.size();i++)
-                    ui->mrDatasetQualityProcedureTypeComboBox->insertItem(i+1,mrDatasetQualityProcedureTypeList.values().at(i));
-            }
-        }
-        else
-            qDebug() << "could not call function";
-}
 
+    mrDatasetQualityProcedureTypeList = getMrDatasetQualityProcedureTypeList();
+    if (!mrDatasetQualityProcedureTypeList.isEmpty())
+    {
+        ui->mrDatasetQualityProcedureTypeComboBox->insertItem(0,"");
+        for (int i=0; i<mrDatasetQualityProcedureTypeList.size();i++)
+            ui->mrDatasetQualityProcedureTypeComboBox->insertItem(i+1,mrDatasetQualityProcedureTypeList.values().at(i));
+    }
+}
 
 void QtShanoirUploadWidgetDatasetTypeDetailsMrDataset::buildTable()
 {

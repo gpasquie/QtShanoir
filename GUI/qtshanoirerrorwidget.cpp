@@ -7,13 +7,8 @@ QtShanoirErrorWidget::QtShanoirErrorWidget(QWidget *parent) : QWidget(parent),ui
     //ui->label->setStyleSheet("QLabel {color : red;}");
 }
 
-
-
 void QtShanoirErrorWidget::printMessage(QString text)
 {
-    qDebug()<<"message"<<text;
-
-    //QLabel* label = new QLabel(text,this);
     ui->label->clear();
     ui->label->setText(text);
     ui->label->setStyleSheet("QLabel {color : red;}");

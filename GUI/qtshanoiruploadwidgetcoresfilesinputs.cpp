@@ -16,8 +16,6 @@ QtShanoirUploadWidgetCoresFilesInputs::QtShanoirUploadWidgetCoresFilesInputs(QWi
 
     //Explain step
     ui->detailsLabel->setText(tr("<b> Step 3 : </b> Match your files with the correct input Datasets."));
-
-
 }
 
 void QtShanoirUploadWidgetCoresFilesInputs::attachShowStepsWidget(QtShanoirUploadWidgetShowSteps* widget)

@@ -4,6 +4,8 @@
 #include <QCheckBox>
 #include <QMessageBox>
 
+#include "dao.h"
+
 QtShanoirUploadWidgetDatasetTypeDetailsTemplateDataset::QtShanoirUploadWidgetDatasetTypeDetailsTemplateDataset(QList<QtShanoirUploadProcessedDatasetAttributesTemp> files,QWidget *parent) : QWidget(parent), ui(new Ui::QtShanoirUploadWidgetDatasetTypeDetailsTemplateDataset)
 {
     ui->setupUi(this);
@@ -15,25 +17,13 @@ QtShanoirUploadWidgetDatasetTypeDetailsTemplateDataset::QtShanoirUploadWidgetDat
 
 void QtShanoirUploadWidgetDatasetTypeDetailsTemplateDataset::fillComboBox()
 {
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)();
-    CallFunction cf = (CallFunction)library.resolve("getTemplateDatasetNatureList");
-    if (cf)
+    templateDatasetTypeList = getTemplateDatasetNatureList();
+    if (!templateDatasetTypeList.isEmpty())
     {
-        templateDatasetTypeList = cf();
-        if (!templateDatasetTypeList.isEmpty())
-        {
-            ui->templateDatasetTypeComboBox->insertItem(0,"");
-            for (int i=0; i<templateDatasetTypeList.size();i++)
-                ui->templateDatasetTypeComboBox->insertItem(i+1,templateDatasetTypeList.values().at(i));
-        }
+        ui->templateDatasetTypeComboBox->insertItem(0,"");
+        for (int i=0; i<templateDatasetTypeList.size();i++)
+            ui->templateDatasetTypeComboBox->insertItem(i+1,templateDatasetTypeList.values().at(i));
     }
-    else
-        qDebug() << "could not call function";
 }
 
 void QtShanoirUploadWidgetDatasetTypeDetailsTemplateDataset::buildTable()
@@ -47,7 +37,6 @@ void QtShanoirUploadWidgetDatasetTypeDetailsTemplateDataset::buildTable()
 
     ui->processedDatasetTypeTable->setColumnCount(4);
     ui->processedDatasetTypeTable->setRowCount(verticalLabels.size());
-
 
     horizontalLabels << "" << tr("Name") << tr("Comment") << tr("Template Dataset Type");
     ui->processedDatasetTypeTable->setHorizontalHeaderLabels(horizontalLabels);

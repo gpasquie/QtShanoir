@@ -1,8 +1,10 @@
 #include "qtshanoiruploadwidgetselectprocess.h"
 #include <QMessageBox>
+
+#include "dao.h"
+
 QtShanoirUploadWidgetSelectProcess::QtShanoirUploadWidgetSelectProcess(QWidget *parent): QWizardPage(parent), ui (new Ui::QtShanoirUploadWidgetSelectProcess)
 {
-
     ui->setupUi(this);
 
     setButtonText(QWizard::NextButton,tr("Next >"));
@@ -12,33 +14,21 @@ QtShanoirUploadWidgetSelectProcess::QtShanoirUploadWidgetSelectProcess(QWidget *
     showsteps->steps(4);
 
     //Explain step
-        ui->detailsLabel->setText(tr("<b> Step 4 : </b> Select the list of process."));
+    ui->detailsLabel->setText(tr("<b> Step 4 : </b> Select the list of process."));
 
     ui->processLabel->setText(tr("Process : <font color='red'>*</font>"));
 
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)();
-    CallFunction cf = (CallFunction)library.resolve("getProcessingList");
-    if (cf)
+    processList = getProcessingList();
+    if (!processList.isEmpty())
     {
-        processList = cf();
-        if (!processList.isEmpty())
+        for (int i=0; i<processList.size();i++)
         {
-            for (int i=0; i<processList.size();i++)
-            {
-                QListWidgetItem* item = new QListWidgetItem(processList.values().at(i));
-                item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
-                item->setCheckState(Qt::Unchecked);
-                ui->listWidget->addItem(item);
-            }
+            QListWidgetItem* item = new QListWidgetItem(processList.values().at(i));
+            item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+            item->setCheckState(Qt::Unchecked);
+            ui->listWidget->addItem(item);
         }
     }
-    else
-        qDebug() << "could not call function";
 
     initConnections();
 }

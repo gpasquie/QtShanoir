@@ -26,12 +26,12 @@ void Demo::initConnections()
     QObject::connect(uploadButton, SIGNAL(clicked()), uploadIntermediate, SLOT(buildUpload()));
 
     QObject::connect(search, SIGNAL(startFind(QString,QString,QDate,QString)), tree, SLOT(build(QString,QString,QDate,QString)));
-    QObject::connect(tree,SIGNAL(getStudyDetails(QString)),details, SLOT(getStudyDetails(QString)));
-    QObject::connect(tree,SIGNAL(getSubjectDetails(int,int)),details, SLOT(getSubjectDetails(int,int)));
-    QObject::connect(tree,SIGNAL(getExamDetails(int,int,int)),details, SLOT(getExamDetails(int,int,int)));
-    QObject::connect(tree,SIGNAL(getDatasetDetails(int,int,int,int)),details, SLOT(getDatasetDetails(int,int,int,int)));
-    QObject::connect(tree,SIGNAL(getProcessDetails(int,int,int,int,int)),details, SLOT(getProcessDetails(int,int,int,int,int)));
-    QObject::connect(tree,SIGNAL(getProcessedDatasetDetails(int,int,int,int,int,int)),details, SLOT(getProcessedDatasetDetails(int,int,int,int,int,int)));
+    QObject::connect(tree,SIGNAL(getStudyDetails(QString)),details, SLOT(displayStudyDetails(QString)));
+    QObject::connect(tree,SIGNAL(getSubjectDetails(int,int)),details, SLOT(displaySubjectDetails(int,int)));
+    QObject::connect(tree,SIGNAL(getExamDetails(int,int,int)),details, SLOT(displayExamDetails(int,int,int)));
+    QObject::connect(tree,SIGNAL(getDatasetDetails(int,int,int,int)),details, SLOT(displayDatasetDetails(int,int,int,int)));
+    QObject::connect(tree,SIGNAL(getProcessDetails(int,int,int,int,int)),details, SLOT(displayProcessDetails(int,int,int,int,int)));
+    QObject::connect(tree,SIGNAL(getProcessedDatasetDetails(int,int,int,int,int,int)),details, SLOT(displayProcessedDatasetDetails(int,int,int,int,int,int)));
     QObject::connect(tree, SIGNAL(callUpdateSelectedIds(QMap<int,QString>)), download, SLOT (updateSelectedIds(QMap<int,QString>)));
     QObject::connect(settings, SIGNAL(queryFailed(QString)), error, SLOT (printMessage(QString)));
     QObject::connect(tree, SIGNAL(queryFailed(QString)), error, SLOT (printMessage(QString)));

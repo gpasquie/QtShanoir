@@ -1,9 +1,10 @@
 #include "qtshanoiruploadwidgetdatasettypedetailsmrspectroscopydataset.h"
 #include "ui_qtshanoiruploadwidgetdatasettypedetailsmrspectroscopydataset.h"
 
-
 #include <QCheckBox>
 #include <QMessageBox>
+
+#include "dao.h"
 
 QtShanoirUploadWidgetDatasetTypeDetailsMrSpectroscopyDataset::QtShanoirUploadWidgetDatasetTypeDetailsMrSpectroscopyDataset(QList<QtShanoirUploadProcessedDatasetAttributesTemp> files,QWidget *parent) : QWidget(parent), ui(new Ui::QtShanoirUploadWidgetDatasetTypeDetailsMrSpectroscopyDataset)
 {
@@ -18,42 +19,23 @@ QtShanoirUploadWidgetDatasetTypeDetailsMrSpectroscopyDataset::QtShanoirUploadWid
 void QtShanoirUploadWidgetDatasetTypeDetailsMrSpectroscopyDataset::fillComboBoxes()
 {
     // Fill MrSpectroscopyDataset Nature Combo box
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)();
-    CallFunction cf = (CallFunction)library.resolve("getMrSpectroscopydatasetNatureList");
-    if (cf)
+    mrSpectroscopyDatasetNatureList = getMrSpectroscopydatasetNatureList();
+    if (!mrSpectroscopyDatasetNatureList.isEmpty())
     {
-        mrSpectroscopyDatasetNatureList = cf();
-        if (!mrSpectroscopyDatasetNatureList.isEmpty())
-        {
-            ui->mrSpectroscopyDatasetNatureComboBox->insertItem(0,"");
-            for (int i=0; i<mrSpectroscopyDatasetNatureList.size();i++)
-                ui->mrSpectroscopyDatasetNatureComboBox->insertItem(i+1,mrSpectroscopyDatasetNatureList.values().at(i));
-        }
+        ui->mrSpectroscopyDatasetNatureComboBox->insertItem(0,"");
+        for (int i=0; i<mrSpectroscopyDatasetNatureList.size();i++)
+            ui->mrSpectroscopyDatasetNatureComboBox->insertItem(i+1,mrSpectroscopyDatasetNatureList.values().at(i));
     }
-    else
-        qDebug() << "could not call function";
 
     // Fil MrDataset Quality Procedure Type
-    cf = (CallFunction)library.resolve("getMrDatasetQualityProcedureTypeList");
-        if (cf)
-        {
-            mrDatasetQualityProcedureTypeList = cf();
-            if (!mrDatasetQualityProcedureTypeList.isEmpty())
-            {
-                ui->mrDatasetQualityProcedureTypeComboBox->insertItem(0,"");
-                for (int i=0; i<mrDatasetQualityProcedureTypeList.size();i++)
-                    ui->mrDatasetQualityProcedureTypeComboBox->insertItem(i+1,mrDatasetQualityProcedureTypeList.values().at(i));
-            }
-        }
-        else
-            qDebug() << "could not call function";
+    mrDatasetQualityProcedureTypeList = getMrDatasetQualityProcedureTypeList();
+    if (!mrDatasetQualityProcedureTypeList.isEmpty())
+    {
+        ui->mrDatasetQualityProcedureTypeComboBox->insertItem(0,"");
+        for (int i=0; i<mrDatasetQualityProcedureTypeList.size();i++)
+            ui->mrDatasetQualityProcedureTypeComboBox->insertItem(i+1,mrDatasetQualityProcedureTypeList.values().at(i));
+    }
 }
-
 
 void QtShanoirUploadWidgetDatasetTypeDetailsMrSpectroscopyDataset::buildTable()
 {

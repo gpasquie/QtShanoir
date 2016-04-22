@@ -16,7 +16,6 @@ QtShanoirUploadWidgetSelectInputs::QtShanoirUploadWidgetSelectInputs(QWidget *pa
     ui->selectLabel->setText("Input Datasets :");
 
     tree = new QtShanoirTreeWidget();
-
 }
 
 void QtShanoirUploadWidgetSelectInputs::attchShowStepsWidget(QtShanoirUploadWidgetShowSteps* widget)

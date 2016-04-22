@@ -4,6 +4,8 @@
 #include <QCheckBox>
 #include <QMessageBox>
 
+#include "dao.h"
+
 QtShanoirUploadWidgetDatasetTypeDetailsCalibrationDataset::QtShanoirUploadWidgetDatasetTypeDetailsCalibrationDataset(QList<QtShanoirUploadProcessedDatasetAttributesTemp> files,QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QtShanoirUploadWidgetDatasetTypeDetailsCalibrationDataset)
@@ -17,27 +19,16 @@ QtShanoirUploadWidgetDatasetTypeDetailsCalibrationDataset::QtShanoirUploadWidget
 
 void QtShanoirUploadWidgetDatasetTypeDetailsCalibrationDataset::fillComboBox()
 {
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)();
-    CallFunction cf = (CallFunction)library.resolve("getCalibrationDatasetTypeList");
-    if (cf)
+    calibrationDatasetTypeList = getCalibrationDatasetTypeList();
+    if (!calibrationDatasetTypeList.isEmpty())
     {
-        calibrationDatasetTypeList = cf();
-        if (!calibrationDatasetTypeList.isEmpty())
-        {
-            ui->calibrationDatasetTypeComboBox->insertItem(0,"");
-            for (int i=0; i<calibrationDatasetTypeList.size();i++)
-                ui->calibrationDatasetTypeComboBox->insertItem(i+1,calibrationDatasetTypeList.values().at(i));
-        }
-        else
-            qDebug()<<"fff";
+        ui->calibrationDatasetTypeComboBox->insertItem(0,"");
+        for (int i=0; i<calibrationDatasetTypeList.size();i++)
+            ui->calibrationDatasetTypeComboBox->insertItem(i+1,calibrationDatasetTypeList.values().at(i));
     }
     else
-        qDebug() << "could not call function";
+        qDebug()<<"fff";
+
 }
 
 void QtShanoirUploadWidgetDatasetTypeDetailsCalibrationDataset::buildTable()

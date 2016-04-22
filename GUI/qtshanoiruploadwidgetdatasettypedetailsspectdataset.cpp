@@ -2,9 +2,10 @@
 #include "ui_qtshanoiruploadwidgetdatasettypedetailsspectdataset.h"
 
 #include <QDebug>
-#include <QLibrary>
 #include <QMessageBox>
 #include <QCheckBox>
+
+#include "dao.h"
 
 QtShanoirUploadWidgetDatasettypeDetailsSpectDataset::QtShanoirUploadWidgetDatasettypeDetailsSpectDataset(QList<QtShanoirUploadProcessedDatasetAttributesTemp> files, QWidget *parent) : QWidget(parent), ui(new Ui::QtShanoirUploadWidgetDatasettypeDetailsSpectDataset)
 {
@@ -17,41 +18,22 @@ QtShanoirUploadWidgetDatasettypeDetailsSpectDataset::QtShanoirUploadWidgetDatase
 
 void QtShanoirUploadWidgetDatasettypeDetailsSpectDataset::fillComboBoxes()
 {
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)();
-    CallFunction cf = (CallFunction)library.resolve("getSpectNatureList");
-    if (cf)
+    spectDatasetNatureList = getSpectNatureList();
+    if (!spectDatasetNatureList.isEmpty())
     {
-        spectDatasetNatureList = cf();
-        if (!spectDatasetNatureList.isEmpty())
-        {
-            ui->spectDatasetNatureComboBox->insertItem(0,"");
-            for (int i=0; i<spectDatasetNatureList.size();i++)
-                ui->spectDatasetNatureComboBox->insertItem(i+1,spectDatasetNatureList.values().at(i));
-        }
+        ui->spectDatasetNatureComboBox->insertItem(0,"");
+        for (int i=0; i<spectDatasetNatureList.size();i++)
+            ui->spectDatasetNatureComboBox->insertItem(i+1,spectDatasetNatureList.values().at(i));
     }
-    else
-        qDebug() << "could not call function";
 
-    cf = (CallFunction)library.resolve("getProcessedDatasetTypeList");
-        if (cf)
-        {
-            processedDatasetTypeList = cf();
-            if (!processedDatasetTypeList.isEmpty())
-            {
-                ui->processedDatasetTypeComboBox->insertItem(0,"");
-                for (int i=0; i<processedDatasetTypeList.size();i++)
-                    ui->processedDatasetTypeComboBox->insertItem(i+1,processedDatasetTypeList.values().at(i));
-            }
-        }
-        else
-            qDebug() << "could not call function";
+    processedDatasetTypeList = getProcessedDatasetTypeList();
+    if (!processedDatasetTypeList.isEmpty())
+    {
+        ui->processedDatasetTypeComboBox->insertItem(0,"");
+        for (int i=0; i<processedDatasetTypeList.size();i++)
+            ui->processedDatasetTypeComboBox->insertItem(i+1,processedDatasetTypeList.values().at(i));
+    }
 }
-
 
 void QtShanoirUploadWidgetDatasettypeDetailsSpectDataset::buildTable()
 {
@@ -64,7 +46,6 @@ void QtShanoirUploadWidgetDatasettypeDetailsSpectDataset::buildTable()
 
     ui->processedDatasetTypeTable->setColumnCount(5);
     ui->processedDatasetTypeTable->setRowCount(verticalLabels.size());
-
 
     horizontalLabels << "" << tr("Name") << tr("Comment") << tr("Spect Dataset Nature") << tr("Processed Dataset Type");
     ui->processedDatasetTypeTable->setHorizontalHeaderLabels(horizontalLabels);

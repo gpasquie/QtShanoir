@@ -4,6 +4,8 @@
 #include <QLineEdit>
 #include <QPushButton>
 
+#include "dao.h"
+
 
 QtShanoirDownloadWidget::QtShanoirDownloadWidget(QWidget *parent) : QWidget(parent),ui (new Ui::QtShanoirDownloadWidget)
 {
@@ -94,38 +96,27 @@ void QtShanoirDownloadWidget::buildTableDownload()
 void QtShanoirDownloadWidget::startDownload(QString directory)
 {
     emit callBuildTableDownload();
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef void (* CallFunction)(QString,QString);
-    CallFunction cf = (CallFunction)library.resolve("downloadFile");
-    if (cf)
+
+    qDebug()<<"size"<<selectedIds.size();
+    for (int i=0; i<selectedIds.size(); i++)
     {
-        qDebug()<<"size"<<selectedIds.size();
-        for (int i=0; i<selectedIds.size(); i++)
-        {
+        QMap<int, int>::Iterator iterator = mappingTable.find(selectedIds.keys().at(i));
 
-            QMap<int, int>::Iterator iterator = mappingTable.find(selectedIds.keys().at(i));
+        downloadFile(QString::number(selectedIds.keys().at(i)),directory);
+        ui->progressBar->setVisible(true);
+        ui->progressBar->setValue(( int ) ( 100.00 * ( i + 1 ) / selectedIds.size() ) );
+        ui->tableWidget->removeCellWidget(iterator.value(), 1);
+        ui->tableWidget->setItem(iterator.value(), 1, new QTableWidgetItem("finished"));
+        ui->tableWidget->resizeColumnToContents(1);
 
-            cf(QString::number(selectedIds.keys().at(i)),directory);
-            ui->progressBar->setVisible(true);
-            ui->progressBar->setValue(( int ) ( 100.00 * ( i + 1 ) / selectedIds.size() ) );
-            ui->tableWidget->removeCellWidget(iterator.value(), 1);
-            ui->tableWidget->setItem(iterator.value(), 1, new QTableWidgetItem("finished"));
-            ui->tableWidget->resizeColumnToContents(1);
+        qDebug()<<"rowint"<<iterator.value();
 
-            qDebug()<<"rowint"<<iterator.value();
+        //(QtShanoirProgressWidget*)(ui->tableWidget->item(0,0))->setProgressBarValue(50);
+        // modifyProgressBar((QtShanoirProgressWidget*)ui->tableWidget->item(0,0),50);
 
-            //(QtShanoirProgressWidget*)(ui->tableWidget->item(0,0))->setProgressBarValue(50);
-           // modifyProgressBar((QtShanoirProgressWidget*)ui->tableWidget->item(0,0),50);
-
-            //ajouter test
-        }
+        //ajouter test
     }
-    else
-        qDebug() << "could not call function";
+
 
 //        if (d->progress)
 //            d->progress->download->setValue ((int)(100.00*(i+1)/d->selectedIds.size()));

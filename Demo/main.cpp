@@ -35,43 +35,9 @@ int main( int argc , char *argv[] )
     else
         qDebug() << "could not call function";
 
-    /*
-    QTranslator qtTranslator;
-    qtTranslator.load("qt_" + QLocale::system().name(),QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    app.installTranslator(&qtTranslator);
-    QTranslator myappTranslator;
-    myappTranslator.load("myapp_" + QLocale::system().name());
-    app.installTranslator(&myappTranslator);
-*/
-    /*path lib */
-    //QCoreApplication::addLibraryPath(const QString& path)
-    //qDebug()<<QDir::currentPath();
-    //SetDllDirectory("QDir::separator() + GUI");
-    //QCoreApplication::addLibraryPath("..\\GUI\\");
+    Demo * demo = new Demo();
+    demo->show();
 
-    //        QLibrary dao_library("DAO.dll");
-    //        if (!dao_library.load())
-    //                qDebug() << dao_library.errorString();
-    //        else
-    //                qDebug() << "library loaded";
-
-    QLibrary gui_library(GUI_LIB);
-    if (!gui_library.load())
-        qDebug() << gui_library.errorString();
-    else
-        qDebug() << "library loaded";
-    typedef Demo* (* CreateWidgetFunction)(void);
-    CreateWidgetFunction cwf = (CreateWidgetFunction)gui_library.resolve("createShanoirMainwidget");
-    if (cwf)
-    {
-        Demo* wid = cwf();
-        if (wid)
-            wid->show();
-    }
-    else
-    {
-        qDebug() << "Could not show widget from the loaded library";
-    }
     return app.exec();
 }
 

@@ -306,25 +306,25 @@
   <customwidget>
    <class>QtShanoirTreeWidget</class>
    <extends>QWidget</extends>
-   <header location="global">QtShanoirTreeWidget.h</header>
+   <header location="global">qtshanoirtreewidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>QtShanoirSettingsWidget</class>
    <extends>QWidget</extends>
-   <header location="global">QtShanoirSettingsWidget.h</header>
+   <header location="global">qtshanoirsettingswidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>QtShanoirDetailsWidget</class>
    <extends>QWidget</extends>
-   <header location="global">QtShanoirDetailsWidget.h</header>
+   <header location="global">qtshanoirdetailswidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>QtShanoirSearchWidget</class>
    <extends>QWidget</extends>
-   <header location="global">QtShanoirSearchWidget.h</header>
+   <header location="global">qtshanoirsearchwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

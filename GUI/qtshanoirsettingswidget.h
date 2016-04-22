@@ -6,15 +6,6 @@
 #include "qtshanoirsettings.h"
 #include "qtshanoirmain.h"
 
-typedef struct Settings
-{
-    QString login;
-    QString password;
-    QString host;
-    int port;
-    QString truststore;
-}Settings;
-
 class  QtShanoirSettingsWidget : public QWidget, private Ui::QtShanoirSettings
 {
     Q_OBJECT

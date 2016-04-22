@@ -2,7 +2,7 @@
 #define QTSHANOIRTREEWIDGET_H
 
 
-#include<QtGui>
+#include <QtGui>
 #include "ui_qtshanoirtreewidget.h"
 #include "qtshanoirtree.h"
 

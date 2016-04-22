@@ -1,8 +1,6 @@
 #include "dao.h"
 #include <iostream>
 
-
-
 DAO_EXPORT void configureSettings(QString filename)
 {
     GlobalData::settings.loadSettings(filename);
@@ -81,8 +79,6 @@ DAO_EXPORT QMap<int,QString> findExamListf(int idStudy, int idSubject, QString e
     }
     return allExam;
 }
-
-
 
 DAO_EXPORT QMap<int,QString> findDatasetList(int idStudy,int idSubject,int idExam)
 {

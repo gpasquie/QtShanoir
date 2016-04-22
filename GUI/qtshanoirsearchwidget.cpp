@@ -1,5 +1,4 @@
 #include "qtshanoirsearchwidget.h"
-//#include "qtshanoirmain.h"
 
 QtShanoirSearchWidget::QtShanoirSearchWidget(QWidget *parent): QWidget(parent),ui (new Ui::QtShanoirSearchWidget)
 {

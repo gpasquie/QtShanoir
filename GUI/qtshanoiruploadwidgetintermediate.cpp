@@ -1,8 +1,8 @@
 #include "qtshanoiruploadwidgetintermediate.h"
 
+
 QtShanoirUploadWidgetIntermediate::QtShanoirUploadWidgetIntermediate()
 {
-
 
 }
 

@@ -16,24 +16,6 @@
 #include "qtshanoiruploadwidgetdatasettypedetailsstandarddataset.h"
 
 
-typedef struct ProcessedDatasetFilesAndAttributes
-{
-    QString filename;
-    int studyId;
-    QList<int> inputDatasetIdList;
-    int refDatasetProcessingId;
-    QString datasetClass;
-    QString datasetName;
-    QString datasetComment;
-    int refMrDatasetNatureId;
-    int refMrQualityProcedureTypeId;
-    int refCalibrationDatasetTypeId;
-    int refProcessedDatasetTypeId;
-    int refParameterQuantificationDatasetNatureId;
-    int refSpectDatasetNatureId;
-    int refTemplateDatasetNatureId;
-}ProcessedDatasetFilesAndAttributes;
-
 namespace Ui
 {
 class QtShanoirUploadWidgetDatasetTypeDetails;

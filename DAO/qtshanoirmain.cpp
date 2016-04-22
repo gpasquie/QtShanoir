@@ -119,8 +119,6 @@ QString QtShanoirMain::acquireExam(QString str)
 
     QString xmlserializer;
     //authentification();
-    QString login = "ttest";
-    QString password = "shanoir$1";
     bool querySuccess ;
     querySuccess= QtShanoirWebService::Query ( ws, "setUsername", impl, QStringList() << "username", QStringList() << GlobalData::settings.getLogin(), xmlserializer);
 
@@ -168,8 +166,6 @@ QString QtShanoirMain::acquireDataset(QString idSubject,QString idExam)
 
     QString xmlserializer;
     //authentification();
-    QString login = "ttest";
-    QString password = "shanoir$1";
     bool querySuccess ;
     querySuccess= QtShanoirWebService::Query ( ws, "setUsername", impl, QStringList() << "username", QStringList() << GlobalData::settings.getLogin(), xmlserializer);
 

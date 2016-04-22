@@ -4,6 +4,8 @@
 #include <QCheckBox>
 #include <QMessageBox>
 
+#include "dao.h"
+
 QtShanoirUploadWidgetDatasetTypeDetailsEegMegPetDataset::QtShanoirUploadWidgetDatasetTypeDetailsEegMegPetDataset(QList<QtShanoirUploadProcessedDatasetAttributesTemp> files,QWidget *parent) :QWidget(parent),ui(new Ui::QtShanoirUploadWidgetDatasetTypeDetailsEegMegPetDataset)
 {
     ui->setupUi(this);
@@ -15,25 +17,14 @@ QtShanoirUploadWidgetDatasetTypeDetailsEegMegPetDataset::QtShanoirUploadWidgetDa
 
 void QtShanoirUploadWidgetDatasetTypeDetailsEegMegPetDataset::fillComboBox()
 {
-    QLibrary library("DAO.dll");
-    if (!library.load())
-            qDebug() << library.errorString();
-    else
-            qDebug() << "library loaded";
-    typedef QMap<int,QString> (* CallFunction)();
-    CallFunction cf = (CallFunction)library.resolve("getProcessedDatasetTypeList");
-    if (cf)
+    processedDatasetTypeList = getProcessedDatasetTypeList();
+    if (!processedDatasetTypeList.isEmpty())
     {
-        processedDatasetTypeList = cf();
-        if (!processedDatasetTypeList.isEmpty())
-        {
-            ui->processedDatasetTypeComboBox->insertItem(0,"");
-            for (int i=0; i<processedDatasetTypeList.size();i++)
-                ui->processedDatasetTypeComboBox->insertItem(i+1,processedDatasetTypeList.values().at(i));
-        }
+        ui->processedDatasetTypeComboBox->insertItem(0,"");
+        for (int i=0; i<processedDatasetTypeList.size();i++)
+            ui->processedDatasetTypeComboBox->insertItem(i+1,processedDatasetTypeList.values().at(i));
     }
-    else
-        qDebug() << "could not call function";
+
 }
 
 void QtShanoirUploadWidgetDatasetTypeDetailsEegMegPetDataset::buildTable()
