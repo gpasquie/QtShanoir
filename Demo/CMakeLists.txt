@@ -14,7 +14,7 @@ list_source_files(${TARGET_NAME}
 ## include directorie.
 ## #############################################################################
 
-include_directories(${${TARGET_NAME}_INCLUDE_DIRS} ${QuaZip_INCLUDE_DIRS} ${DAO_INCLUDE_DIRS} ${GUI_INCLUDE_DIRS} )
+include_directories(${${TARGET_NAME}_INCLUDE_DIRS} ${QuaZip_INCLUDE_DIRS} ${QtShanoirDAO_INCLUDE_DIRS} ${QtShanoirGUI_INCLUDE_DIRS} )
 
 ## #############################################################################
 ## Translate.
@@ -34,7 +34,8 @@ add_executable(${TARGET_NAME}
 
 target_link_libraries(${TARGET_NAME}
   ${QT_LIBRARIES}
-  DAO GUI
+  QtShanoirDAO
+  QtShanoirGUI
   )
 
 set_exe_install_rules(${TARGET_NAME})

@@ -1,4 +1,4 @@
-set (TARGET_NAME GUI)
+set (TARGET_NAME QtShanoirGUI)
 
 find_package(QuaZip REQUIRED)
 
@@ -56,7 +56,7 @@ target_link_libraries(${TARGET_NAME}
     Qt5::Network
     Qt5::Xml
     quazip
-    DAO
+    QtShanoirDAO
     )
 
 ## #############################################################################

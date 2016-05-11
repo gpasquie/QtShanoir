@@ -1,4 +1,4 @@
-set(TARGET_NAME DAO)
+set(TARGET_NAME QtShanoirDAO)
 
 find_package(QuaZip REQUIRED)
 
