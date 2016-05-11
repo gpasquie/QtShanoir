@@ -42,7 +42,6 @@ void QtShanoirExam::setDate(QDate date)
 
 QtShanoirDataset& QtShanoirExam::getDatasetById(int id)
 {
-
     for (int i=0; i<datasetList.size();i++)
         if(datasetList.value(i).getId()== id)
             return datasetList[i];

@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(qtshanoir VERSION 1.0.0)
+cmake_policy(SET CMP0048 NEW)
+set(CMAKE_MACOSX_RPATH OFF)
 
+project(qtshanoir VERSION 1.0.0)
 
 ## #############################################################################
 ## Additionals modules
@@ -65,8 +67,6 @@ add_subdirectory(GUI)
 ## #############################################################################
 ## Configure the demo
 ## #############################################################################
-
-message("${PROJECT_NAME}_INCLUDE_DIRS from Main ${${PROJECT_NAME}_INCLUDE_DIRS}")
 
 option(BUILD_DEMO "Build example application" ON)
 

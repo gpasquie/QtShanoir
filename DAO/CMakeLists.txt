@@ -1,6 +1,4 @@
-cmake_minimum_required(VERSION 2.8.10)
-
-project(DAO)
+set(TARGET_NAME DAO)
 
 find_package(QuaZip REQUIRED)
 
@@ -8,7 +6,7 @@ find_package(QuaZip REQUIRED)
 ## List Sources
 ## #############################################################################
 
-list_source_files(${PROJECT_NAME}
+list_source_files(${TARGET_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}
     )
 
@@ -16,29 +14,29 @@ list_source_files(${PROJECT_NAME}
 ## include directories.
 ## #############################################################################
 
-list_header_directories_to_include(${PROJECT_NAME}
-    ${${PROJECT_NAME}_HEADERS}
+list_header_directories_to_include(${TARGET_NAME}
+    ${${TARGET_NAME}_HEADERS}
     )
 
 ## #############################################################################
 ## Lib definition.
 ## #############################################################################
 
-add_library(${PROJECT_NAME} SHARED
-    ${${PROJECT_NAME}_CFILES}
+add_library(${TARGET_NAME} SHARED
+    ${${TARGET_NAME}_CFILES}
     )
 
 ## #############################################################################
 ## include directorie.
 ## #############################################################################
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-    ${${PROJECT_NAME}_INCLUDE_DIRS}
+target_include_directories(${TARGET_NAME} PUBLIC
+    ${${TARGET_NAME}_INCLUDE_DIRS}
     ${QuaZip_INCLUDE_DIRS}
     )
 
-set(${PROJECT_NAME}_INCLUDE_DIRS
-    ${${PROJECT_NAME}_INCLUDE_DIRS}
+set(${TARGET_NAME}_INCLUDE_DIRS
+    ${${TARGET_NAME}_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
     PARENT_SCOPE
     )
@@ -47,7 +45,7 @@ set(${PROJECT_NAME}_INCLUDE_DIRS
 ## Link
 ## #############################################################################
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${TARGET_NAME}
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets
@@ -60,4 +58,4 @@ target_link_libraries(${PROJECT_NAME}
 ## install
 ## #############################################################################
 
-set_lib_install_rules(${PROJECT_NAME})
+set_lib_install_rules(${TARGET_NAME})

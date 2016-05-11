@@ -103,7 +103,6 @@ void QtShanoirDataset::setEchoTime(float echo)
 
 QtShanoirProcess& QtShanoirDataset::getProcessById(int id)
 {
-
     for (int i=0; i<processList.size();i++)
         if(processList.value(i).getId()== id)
             return processList[i];

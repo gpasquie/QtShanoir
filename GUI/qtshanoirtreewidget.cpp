@@ -37,7 +37,7 @@ void QtShanoirTreeWidget::buildTree()
     QTreeWidgetItem* root = new QTreeWidgetItem(QTreeWidgetItem::UserType + 1);
     root->setData(0, QTreeWidgetItem::UserType + 1, 0);
     tree->addChild(root);
-    root->setText(0, "shanoir-qualif.fr"); // a changer avec le nom du host
+    root->setText(0, "Shanoir database"); // a changer avec le nom du host
     root->setText(1, QString("SERVER"));
     root->setIcon(0, QIcon(":Images/network.64x64.png"));
     root->setExpanded(true);
@@ -54,7 +54,7 @@ void QtShanoirTreeWidget::build(QString studyFilter,QString subjectFilter,QDate 
 
     if((studyFilter!="")&&(subjectFilter=="")&&(examinationDateFilter==defaultDate)&&(datasetFilter==""))
     {
-        root = ui->treeWidget->findItems("shanoir-qualif.fr",Qt::MatchExactly); //inconvenient des noms similaires
+        root = ui->treeWidget->findItems("Shanoir database",Qt::MatchExactly); //inconvenient des noms similaires
         for(int i=0; i<root.size();i++)
         {
             developTree(studyFilter,root[i]);
@@ -64,7 +64,7 @@ void QtShanoirTreeWidget::build(QString studyFilter,QString subjectFilter,QDate 
     else if((studyFilter!="")&&(subjectFilter!="")&&(examinationDateFilter==defaultDate)&&(datasetFilter==""))
     {
         //FindStudy
-        root = ui->treeWidget->findItems("shanoir-qualif.fr",Qt::MatchExactly); //inconvenient des noms similaires
+        root = ui->treeWidget->findItems("Shanoir database",Qt::MatchExactly); //inconvenient des noms similaires
         for(int i=0; i<root.size();i++)
         {
             developTree(studyFilter,root[i]);
@@ -79,7 +79,7 @@ void QtShanoirTreeWidget::build(QString studyFilter,QString subjectFilter,QDate 
             if(node[j]->text(0)==studyFilter)
             {
                 QTreeWidgetItem* nodef = new QTreeWidgetItem(QTreeWidgetItem::UserType + 2);
-                qDebug()<<"adresse"<<&node[j];
+                qDebug()<<"address"<<&node[j];
                 nodef->setData(0, QTreeWidgetItem::UserType + 2, 4);
                 nodef->setText(0,"toto");
                 nodef->setIcon(0, QIcon(":Images/subject.64x64.png"));
@@ -117,8 +117,8 @@ void QtShanoirTreeWidget::developTree(QString studyFilter, QTreeWidgetItem* item
     }
     else if (studyFilter != "")
     {
-        emit queryFailed("Study don't exist");
-        qDebug() << "Study don't exist"; // affichage
+        emit queryFailed("Study does not exist");
+        qDebug() << "Study does not exist"; // affichage
     }
 }
 

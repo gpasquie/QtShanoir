@@ -1,5 +1,4 @@
-#ifndef DAO
-#define DAO
+#pragma once
 
 #include "qtshanoirtree.h"
 #include "qtshanoirupload.h"
@@ -24,8 +23,6 @@ enum MatchingType
     notcontains
 };
 
-extern "C"
-{
 typedef DAO_EXPORT struct Settings
 {
     QString login;
@@ -95,46 +92,40 @@ typedef DAO_EXPORT struct ProcessedDatasetFilesAndAttributes
     int refTemplateDatasetNatureId;
 }ProcessedDatasetFilesAndAttributes;
 
+DAO_EXPORT void configureSettings(QString);
+DAO_EXPORT struct Settings* loadSettings();
+DAO_EXPORT void updateSettings(struct Settings*, QString);
+DAO_EXPORT QString authentification();
+DAO_EXPORT QMap<int,QString>  findStudyList(QString studyFilter);//QRegExp
+DAO_EXPORT QMap<int,QString>  findSubjectList(QString study,QString subjectFilter);//filter
+DAO_EXPORT QMap<int,QString>  findExamList(int,int);//filter
+DAO_EXPORT QMap<int,QString>  findExamListf(int,int, QString examFilter);
+DAO_EXPORT QMap<int,QString>  findDatasetList(int,int,int);
+DAO_EXPORT QMap<int,QString>  findDatasetListf(int,int,int, QString examFilter);
+DAO_EXPORT QList<int> findDatasetListFilterFromField(int,int,int,const std::vector<std::pair<QString,QString>>& datasetFilter,const std::vector<MatchingType> & matchingTypeVector);
 
-    DAO_EXPORT void configureSettings(QString);
-    DAO_EXPORT struct Settings* loadSettings();
-    DAO_EXPORT void updateSettings(struct Settings*, QString);
-    DAO_EXPORT QString authentification();
-    DAO_EXPORT QMap<int,QString>  findStudyList(QString studyFilter);//QRegExp
-    DAO_EXPORT QMap<int,QString>  findSubjectList(QString study,QString subjectFilter);//filter
-    DAO_EXPORT QMap<int,QString>  findExamList(int,int);//filter
-    DAO_EXPORT QMap<int,QString>  findExamListf(int,int, QString examFilter);
-    DAO_EXPORT QMap<int,QString>  findDatasetList(int,int,int);
-    DAO_EXPORT QMap<int,QString>  findDatasetListf(int,int,int, QString examFilter);
-    DAO_EXPORT QList<int> findDatasetListFilterFromField(int,int,int,const std::vector<std::pair<QString,QString>>& datasetFilter,const std::vector<MatchingType> & matchingTypeVector);
+DAO_EXPORT QMap<int,QString>  findProcessList(int,int,int,int);
+DAO_EXPORT QMap<int,QString>  findProcessedDatasetList(int,int,int,int,int);
+DAO_EXPORT struct Study* getStudyDetails(QString);
+DAO_EXPORT struct Subject* getSubjectDetails(int,int);
+DAO_EXPORT struct Exam* getExamDetails(int,int,int);
+DAO_EXPORT struct Dataset* getDatasetDetails(int,int,int,int);
+DAO_EXPORT struct Process* getProcessDetails(int,int,int,int,int);
+DAO_EXPORT struct ProcessedDataset* getProcessedDatasetDetails(int,int,int,int,int,int);
 
-    DAO_EXPORT QMap<int,QString>  findProcessList(int,int,int,int);
-    DAO_EXPORT QMap<int,QString>  findProcessedDatasetList(int,int,int,int,int);
-    DAO_EXPORT struct Study* getStudyDetails(QString);
-    DAO_EXPORT struct Subject* getSubjectDetails(int,int);
-    DAO_EXPORT struct Exam* getExamDetails(int,int,int);
-    DAO_EXPORT struct Dataset* getDatasetDetails(int,int,int,int);
-    DAO_EXPORT struct Process* getProcessDetails(int,int,int,int,int);
-    DAO_EXPORT struct ProcessedDataset* getProcessedDatasetDetails(int,int,int,int,int,int);
+DAO_EXPORT QtShanoirDataset getShanoirDataSet(int , int , int , int );
 
-    DAO_EXPORT QtShanoirDataset getShanoirDataSet(int , int , int , int );
+DAO_EXPORT void downloadFile(QString,QString);
 
-    DAO_EXPORT void downloadFile(QString,QString);
+DAO_EXPORT QMap<int,QString> getProcessingList();
+DAO_EXPORT QStringList getDatasetTypeList();
+DAO_EXPORT QMap<int,QString> getMrdatasetNatureList();
+DAO_EXPORT QMap<int,QString> getMrSpectroscopydatasetNatureList();
+DAO_EXPORT QMap<int,QString> getMrDatasetQualityProcedureTypeList();
+DAO_EXPORT QMap<int,QString> getCalibrationDatasetTypeList();
+DAO_EXPORT QMap<int,QString> getProcessedDatasetTypeList();
+DAO_EXPORT QMap<int,QString> getTemplateDatasetNatureList();
+DAO_EXPORT QMap<int,QString> getParameterQuantificationNatureList();
+DAO_EXPORT QMap<int,QString> getSpectNatureList();
 
-    DAO_EXPORT QMap<int,QString> getProcessingList();
-    DAO_EXPORT QStringList getDatasetTypeList();
-    DAO_EXPORT QMap<int,QString> getMrdatasetNatureList();
-    DAO_EXPORT QMap<int,QString> getMrSpectroscopydatasetNatureList();
-    DAO_EXPORT QMap<int,QString> getMrDatasetQualityProcedureTypeList();
-    DAO_EXPORT QMap<int,QString> getCalibrationDatasetTypeList();
-    DAO_EXPORT QMap<int,QString> getProcessedDatasetTypeList();
-    DAO_EXPORT QMap<int,QString> getTemplateDatasetNatureList();
-    DAO_EXPORT QMap<int,QString> getParameterQuantificationNatureList();
-    DAO_EXPORT QMap<int,QString> getSpectNatureList();
-
-    DAO_EXPORT void uploadProcessedDatasetFiles(QList<struct ProcessedDatasetFilesAndAttributes*>);
-
-}
-
-#endif 
-
+DAO_EXPORT void uploadProcessedDatasetFiles(QList<struct ProcessedDatasetFilesAndAttributes*>);

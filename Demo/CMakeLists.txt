@@ -1,12 +1,12 @@
-cmake_minimum_required(VERSION 2.8.10)
+set(TARGET_NAME qtshanoir-demo)
 
-project(qtshanoir-demo)
+find_package(QuaZip REQUIRED)
 
 ## #############################################################################
 ## List Sources
 ## #############################################################################
 
-list_source_files(${PROJECT_NAME}
+list_source_files(${TARGET_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}
     )
 
@@ -14,7 +14,7 @@ list_source_files(${PROJECT_NAME}
 ## include directorie.
 ## #############################################################################
 
-include_directories(${${PROJECT_NAME}_INCLUDE_DIRS} ${QuaZip_INCLUDE_DIRS} ${DAO_INCLUDE_DIRS} ${GUI_INCLUDE_DIRS} )
+include_directories(${${TARGET_NAME}_INCLUDE_DIRS} ${QuaZip_INCLUDE_DIRS} ${DAO_INCLUDE_DIRS} ${GUI_INCLUDE_DIRS} )
 
 ## #############################################################################
 ## Translate.
@@ -26,17 +26,15 @@ include_directories(${${PROJECT_NAME}_INCLUDE_DIRS} ${QuaZip_INCLUDE_DIRS} ${DAO
 ## Lib definition.
 ## #############################################################################
 
-#qt4_wrap_ui(${PROJECT_NAME}_UI ${${PROJECT_NAME}_UI} )
-
-add_executable(${PROJECT_NAME}
-  ${${PROJECT_NAME}_CFILES}
-  ${${PROJECT_NAME}_UI}
+add_executable(${TARGET_NAME}
+  ${${TARGET_NAME}_CFILES}
+  ${${TARGET_NAME}_UI}
   ${qm_files}
   )
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${TARGET_NAME}
   ${QT_LIBRARIES}
   DAO GUI
   )
 
-set_exe_install_rules(${PROJECT_NAME})
+set_exe_install_rules(${TARGET_NAME})

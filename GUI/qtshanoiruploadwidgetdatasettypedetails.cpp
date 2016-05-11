@@ -530,11 +530,20 @@ bool QtShanoirUploadWidgetDatasetTypeDetails::validationMrDataset()
 bool QtShanoirUploadWidgetDatasetTypeDetails::validationMrDatasetWithoutErrorMessage()
 {
     if(!mrDatasetFilesToUpload.isEmpty())
+    {
         for(int i=0; i<mrDatasetFilesToUpload.size();i++)
+        {
             if (mrDatasetFilesToUpload[i].getRefMrDatasetNatureId() == 0)
+            {
                 return false;
+            }
             else if (mrDatasetFilesToUpload[i].getRefMrQualityProcedureTypeId() == 0)
+            {
                 return false;
+            }
+        }
+    }
+
     return true;
 }
 
@@ -563,11 +572,17 @@ bool QtShanoirUploadWidgetDatasetTypeDetails::validationMrSpectroscopyDataset()
 bool QtShanoirUploadWidgetDatasetTypeDetails::validationMrSpectroscopyDatasetWithoutErrorMessage()
 {
     if(!mrSpectroscopyDatasetFilesToUpload.isEmpty())
+    {
         for(int i=0; i<mrSpectroscopyDatasetFilesToUpload.size();i++)
+        {
             if (mrSpectroscopyDatasetFilesToUpload[i].getRefMrDatasetNatureId() == 0)
+            {
                 return false;
+            }
             else if (mrSpectroscopyDatasetFilesToUpload[i].getRefMrQualityProcedureTypeId() == 0)
                 return false;
+        }
+    }
     return true;
 }
 
