@@ -5,6 +5,11 @@ set(CMAKE_MACOSX_RPATH OFF)
 
 project(QtShanoir VERSION 1.0.0)
 
+option(BUILD_SHARED_LIBS
+  "Build with shared libraries."
+  ON
+  )
+
 ## #############################################################################
 ## Additionals modules
 ## #############################################################################
