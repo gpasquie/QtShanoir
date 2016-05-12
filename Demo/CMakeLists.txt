@@ -14,13 +14,7 @@ list_source_files(${TARGET_NAME}
 ## include directorie.
 ## #############################################################################
 
-include_directories(${${TARGET_NAME}_INCLUDE_DIRS} ${QuaZip_INCLUDE_DIRS} ${QtShanoirDAO_INCLUDE_DIRS} ${QtShanoirGUI_INCLUDE_DIRS} )
-
-## #############################################################################
-## Translate.
-## #############################################################################
-
-
+include_directories(${${TARGET_NAME}_INCLUDE_DIRS} ${QuaZip_INCLUDE_DIRS} ${QtShanoirDAO_INCLUDE_DIRS} ${QtShanoirGUI_INCLUDE_DIRS})
 
 ## #############################################################################
 ## Lib definition.

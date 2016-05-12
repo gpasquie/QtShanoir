@@ -23,8 +23,7 @@ include(list_source_files)
 include(list_header_directories_to_include)
 include(set_lib_install_rules)
 include(set_exe_install_rules)
-
-
+include(set_lib_properties_variables)
 
 ## #############################################################################
 ## Find packages.
@@ -57,26 +56,23 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-################################################################################
-# Output directories
-################################################################################
-
-set(EXECUTABLE_OUTPUT_PATH
-  ${CMAKE_BINARY_DIR}/bin
-  CACHE PATH "Single output directory for building all executables."
-  )
-
-set(LIBRARY_OUTPUT_PATH
-  ${CMAKE_BINARY_DIR}/lib
-  CACHE PATH "Single output directory for building all libraries."
-  )
-
 ## #############################################################################
 ## Configure libs
 ## #############################################################################
 
 add_subdirectory(DAO)
 add_subdirectory(GUI)
+
+################################################################################
+# Configure files
+################################################################################
+
+set_lib_properties_variables(QtShanoirDAO QtShanoirGUI)
+
+configure_file(${CMAKE_SOURCE_DIR}/CMake/${PROJECT_NAME}Config.cmake.in
+    ${CMAKE_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    @ONLY IMMEDIATE
+)
 
 ## #############################################################################
 ## Configure the demo
