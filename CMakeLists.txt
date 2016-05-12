@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2)
 cmake_policy(SET CMP0048 NEW)
 set(CMAKE_MACOSX_RPATH OFF)
 
-project(qtshanoir VERSION 1.0.0)
+project(QtShanoir VERSION 1.0.0)
 
 ## #############################################################################
 ## Additionals modules
@@ -23,6 +23,7 @@ include(list_source_files)
 include(list_header_directories_to_include)
 include(set_lib_install_rules)
 include(set_exe_install_rules)
+
 
 
 ## #############################################################################
@@ -56,6 +57,19 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+################################################################################
+# Output directories
+################################################################################
+
+set(EXECUTABLE_OUTPUT_PATH
+  ${CMAKE_BINARY_DIR}/bin
+  CACHE PATH "Single output directory for building all executables."
+  )
+
+set(LIBRARY_OUTPUT_PATH
+  ${CMAKE_BINARY_DIR}/lib
+  CACHE PATH "Single output directory for building all libraries."
+  )
 
 ## #############################################################################
 ## Configure libs
